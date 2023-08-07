@@ -117,7 +117,7 @@ namespace Persistence.Contexts
             {
                 user.ToTable("Users").HasKey(x=>x.Id);
                 user.Property(p=>p.Id).HasColumnName("Id");
-                user.Property(p=>p.Username).HasColumnName("Username");
+                user.Property(p=>p.Username).HasColumnName("Username"); 
                 user.Property(p=>p.Email).HasColumnName("Email");
                 user.Property(p=>p.Password).HasColumnName("Password");
                 user.Property(p=>p.RegistrationDate).HasColumnName("RegistrationDate");
