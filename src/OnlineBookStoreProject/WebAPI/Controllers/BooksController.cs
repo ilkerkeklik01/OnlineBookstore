@@ -1,5 +1,7 @@
 ﻿using Application.Features.Books.Commands.CreateBook;
 using Application.Features.Books.Dtos;
+using Application.Features.Books.Models;
+using Application.Features.Books.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +19,17 @@ namespace WebAPI.Controllers
             return Created("", res);
         }
 
-            
+
+        [HttpGet("getlist")]
+        public async Task<IActionResult> GetList([FromQuery] GetListBookQuery getListBookQuery)
+        {
+            BookListModel result = await Mediator.Send(getListBookQuery);   
+
+            return Ok(result);
+
+        }
+
+
 
     }
 }

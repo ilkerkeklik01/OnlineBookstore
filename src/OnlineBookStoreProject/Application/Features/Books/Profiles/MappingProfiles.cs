@@ -1,6 +1,8 @@
 ﻿using Application.Features.Books.Commands.CreateBook;
 using Application.Features.Books.Dtos;
+using Application.Features.Books.Models;
 using AutoMapper;
+using Core.Persistence.Paging;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,8 @@ namespace Application.Features.Books.Profiles
         public MappingProfiles() {
             CreateMap<CreateBookCommand,Book>();//ReverseMap
             CreateMap<Book, CreatedBookDto>();
-            
+            CreateMap<IPaginate<Book>, BookListModel>();
+            CreateMap<Book, BookListDto>();
         }
     }
 }
