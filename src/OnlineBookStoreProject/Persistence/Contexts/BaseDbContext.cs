@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Persistence.Contexts
 {
@@ -21,7 +22,7 @@ namespace Persistence.Contexts
         public DbSet<OrderItem> OrderItems { get; set; }
 
 
-        public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration)
+        public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration):base(dbContextOptions)
         {
             Configuration = configuration;
         }
@@ -39,6 +40,7 @@ namespace Persistence.Contexts
             modelBuilder.Entity<Book>(book =>
             {
                 book.ToTable("Books").HasKey(x => x.Id);
+                book.Property(x=>x.Id).UseIdentityColumn(1,1);
                 book.Property(p => p.Id).HasColumnName("Id");
                 book.Property(p => p.Title).HasColumnName("Title");
                 book.Property(p => p.Description).HasColumnName("Description");
@@ -59,6 +61,7 @@ namespace Persistence.Contexts
             modelBuilder.Entity<Bookshelf>(bookshelf =>
             {
                 bookshelf.ToTable("Bookshelves").HasKey(x => x.Id);
+                bookshelf.Property(x => x.Id).UseIdentityColumn(1, 1);
                 bookshelf.Property(p => p.Id).HasColumnName("Id");
                 bookshelf.Property(p => p.Name).HasColumnName("Name");
                 bookshelf.Property(p => p.UserId).HasColumnName("UserId");
@@ -68,6 +71,7 @@ namespace Persistence.Contexts
             modelBuilder.Entity<Category>(category =>
             {
                 category.ToTable("Categories").HasKey(x => x.Id);
+                category.Property(x=>x.Id).UseIdentityColumn(1,1);
                 category.Property(p => p.Id).HasColumnName("Id");
                 category.Property(p => p.Name).HasColumnName("Name");
             });
@@ -77,6 +81,7 @@ namespace Persistence.Contexts
 
             modelBuilder.Entity<Order>(order => {
                 order.ToTable("Orders").HasKey(x => x.Id);
+                order.Property(x=>x.Id).UseIdentityColumn(1,1);
                 order.Property(p => p.Id).HasColumnName("Id");
                 order.Property(p => p.UserId).HasColumnName("UserId");
                 order.Property(p => p.TotalPrice).HasColumnName("TotalPrice");
@@ -88,6 +93,7 @@ namespace Persistence.Contexts
             modelBuilder.Entity<OrderItem>(orderItem =>
             {
                 orderItem.ToTable("OrderItems").HasKey(x => x.Id);
+                orderItem.Property(x=>x.Id).UseIdentityColumn(1,1);
                 orderItem.Property(p => p.Id).HasColumnName("Id");
                 orderItem.Property(p => p.OrderId).HasColumnName("OrderId");
                 orderItem.Property(p => p.BookId).HasColumnName("BookId");
@@ -102,6 +108,7 @@ namespace Persistence.Contexts
             modelBuilder.Entity<Review>(review => 
             {
                 review.ToTable("Reviews").HasKey(review => review.Id);
+                review.Property(x=>x.Id).UseIdentityColumn(1,1);
                 review.Property(p=>p.Id).HasColumnName("Id");
                 review.Property(p=>p.UserId).HasColumnName("UserId");
                 review.Property(p => p.BookId).HasColumnName("BookId");
@@ -116,6 +123,7 @@ namespace Persistence.Contexts
             modelBuilder.Entity<User>(user => 
             {
                 user.ToTable("Users").HasKey(x=>x.Id);
+                user.Property(x=>x.Id).UseIdentityColumn(1,1);
                 user.Property(p=>p.Id).HasColumnName("Id");
                 user.Property(p=>p.Username).HasColumnName("Username"); 
                 user.Property(p=>p.Email).HasColumnName("Email");
@@ -126,7 +134,10 @@ namespace Persistence.Contexts
             });
 
 
-            //Bookshelf Book many to many junction not implemented yet
+            //Bookshelf Book one to many junction not implemented yet
+
+
+            //Bookshelf user one to many
 
 
         }//OnModelCreating end
