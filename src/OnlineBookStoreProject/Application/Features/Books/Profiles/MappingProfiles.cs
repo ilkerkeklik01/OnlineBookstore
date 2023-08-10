@@ -20,6 +20,7 @@ namespace Application.Features.Books.Profiles
             CreateMap<Book, CreatedBookDto>();
             CreateMap<IPaginate<Book>, BookListModel>();
             CreateMap<Book, BookListDto>();
+            CreateMap<Book, BookDto>();
         }
     }
 }

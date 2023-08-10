@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.Books.Queries
+namespace Application.Features.Books.Queries.GetListBook
 {
     public class GetListBookQuery : IRequest<BookListModel>
     {

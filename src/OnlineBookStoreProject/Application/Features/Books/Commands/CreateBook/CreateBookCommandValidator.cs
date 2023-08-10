@@ -18,6 +18,7 @@ namespace Application.Features.Books.Commands.CreateBook
             RuleFor(x => x.Title).NotNull();
             RuleFor(x => x.Title).MinimumLength(1).NotEmpty();
             RuleFor(x => x.Price).LessThanOrEqualTo(100);
+            RuleFor(x => x.Price).GreaterThanOrEqualTo(1);
         }
 
 
