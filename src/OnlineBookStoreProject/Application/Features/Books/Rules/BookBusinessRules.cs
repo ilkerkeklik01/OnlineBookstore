@@ -18,13 +18,7 @@ namespace Application.Features.Books.Rules
         }
 
 
-        public async Task BookPriceCannotBeMoreThan100Dollars(decimal price)
-        {
-
-            if(price >100 ) {
-                throw new BusinessException("Book price cannot be more than 100 dollars");
-            }
-        }
+       
 
 
         

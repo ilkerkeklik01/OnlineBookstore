@@ -39,7 +39,6 @@ namespace Application.Features.Books.Commands.CreateBook
 
             public async Task<CreatedBookDto> Handle(CreateBookCommand request, CancellationToken cancellationToken)
             {
-                await _rules.BookPriceCannotBeMoreThan100Dollars(request.Price);
                 request.PublicationDate = DateTime.Now;
                 
                 Book mappedBook = _mapper.Map<Book>(request);

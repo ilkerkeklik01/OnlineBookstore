@@ -7,6 +7,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Features.Books.Commands.CreateBook;
+using Core.Application.Pipelines.Validation;
+using FluentValidation;
+using MediatR;
+
 namespace Application
 {
     public static class ApplicationServiceRegistration
@@ -16,6 +21,11 @@ namespace Application
         {
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+
+
 
             services.AddScoped<BookBusinessRules>();
 

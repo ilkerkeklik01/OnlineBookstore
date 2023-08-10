@@ -18,6 +18,7 @@ namespace Application.Features.Books.Queries
 
 
         public PageRequest PageRequest { get; set; }
+
         public class GetListBookQueryHandler : IRequestHandler<GetListBookQuery, BookListModel>
         {
             private readonly IBookRepository _repository;
@@ -30,7 +31,7 @@ namespace Application.Features.Books.Queries
             }
 
 
-
+            
             public async Task<BookListModel> Handle(GetListBookQuery request, CancellationToken cancellationToken)
             {
 
