@@ -16,10 +16,7 @@
   <ItemGroup>
     <Folder Include="Features\Bookshelves\Commands\" />
     <Folder Include="Features\Bookshelves\Constants\" />
-    <Folder Include="Features\Bookshelves\Dtos\" />
-    <Folder Include="Features\Bookshelves\Models\" />
     <Folder Include="Features\Bookshelves\Profiles\" />
-    <Folder Include="Features\Bookshelves\Queries\" />
     <Folder Include="Features\Bookshelves\Rules\" />
     <Folder Include="Features\Books\Constants\" />
     <Folder Include="Features\Categories\Commands\" />
