@@ -1,4 +1,5 @@
-﻿using Application.Features.Bookshelves.Dtos;
+﻿using Application.Features.Bookshelves.Commands.CreateBook;
+using Application.Features.Bookshelves.Dtos;
 using Application.Features.Bookshelves.Models;
 using AutoMapper;
 using Core.Persistence.Paging;
@@ -14,5 +15,10 @@ public class MappingProfiles:Profile
         CreateMap<Bookshelf,BookshelfListDto>().ForMember(c=>c.UserName,
             opt=>opt.MapFrom(c=>c.User.Username));
         CreateMap<IPaginate<Bookshelf>,BookshelfListModel>();
+
+        CreateMap<CreateBookshelfCommand,Bookshelf>();
+
+        CreateMap<Bookshelf, CreatedBookshelfDto>().ForMember(c=>c.UserName,
+            opt=>opt.MapFrom(c=>c.User.Username));
     }
 }
