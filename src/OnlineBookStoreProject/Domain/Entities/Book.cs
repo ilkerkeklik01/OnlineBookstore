@@ -12,25 +12,34 @@ namespace Domain.Entities
         public string Title { get; set; }
         public string Author { get; set; }
         public int CategoryId { get; set; }
+        public int? BookshelfId { get; set; }
+        public int? OrderItemId { get; set; }
         public string? Description { get; set; }
         public decimal Price { get; set; }
         public DateTime PublicationDate { get; set; }
         public string? CoverImagePath { get; set; }
-
-        public Book(int id,string title, string author, int categoryId, string? description, decimal price, DateTime publicationDate, string? coverImagePath)
-        {   
-            this.Id = id;
+        public Bookshelf? Bookshelf { get; set; }
+        public Category? Category { get; set; }
+        public ICollection<Review> Reviews { get; set; }
+        public OrderItem OrderItem { get; set; }
+        public Book(int id, string title,int orderItemId, string author, int categoryId, int bookShelfId, string? description, decimal price, DateTime publicationDate, string? coverImagePath) : base(id)
+        {
             Title = title;
             Author = author;
             CategoryId = categoryId;
+            BookshelfId = bookShelfId;
             Description = description;
             Price = price;
             PublicationDate = publicationDate;
             CoverImagePath = coverImagePath;
+            OrderItemId = orderItemId;
         }
+
+
         public Book()
         {
             
         }
+
     }
 }

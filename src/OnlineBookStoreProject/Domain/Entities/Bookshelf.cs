@@ -11,7 +11,20 @@ namespace Domain.Entities
     {
         public string Name { get; set; }
         public int UserId { get; set; }
-        public ICollection<Book> Books { get; set; }
+        public User? User { get; set; }
+        public ICollection<Book>? Books { get; set; }
+
+        public Bookshelf()
+        {
+            
+        }
+
+        public Bookshelf(int id, string name, int userId) : base(id)
+        {
+            Name = name;
+            UserId = userId;
+        }
+
 
     }
 }

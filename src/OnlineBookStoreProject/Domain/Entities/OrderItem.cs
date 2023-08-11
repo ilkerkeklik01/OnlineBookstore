@@ -13,19 +13,21 @@ namespace Domain.Entities
         public int BookId { get; set; }
         public int Quantity { get; set; }
         public decimal Discount { get; set; }
-
+        public Book? Book { get; set; }
+        public Order? Order { get; set; }
         public OrderItem()
         {
             
         }
 
-        public OrderItem(int id ,int orderId, int bookId, int quantity, decimal discount)
+        public OrderItem(int id, int orderId, int bookId, int quantity, decimal discount) : base(id)
         {
-            this.Id = id;
             OrderId = orderId;
             BookId = bookId;
             Quantity = quantity;
             Discount = discount;
         }
+
+
     }
 }

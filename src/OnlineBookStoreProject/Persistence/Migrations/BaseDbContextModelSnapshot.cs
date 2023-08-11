@@ -37,7 +37,8 @@ namespace Persistence.Migrations
                         .HasColumnName("Author");
 
                     b.Property<int?>("BookshelfId")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("BookshelfId");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int")
@@ -50,6 +51,10 @@ namespace Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Description");
+
+                    b.Property<int?>("OrderItemId")
+                        .HasColumnType("int")
+                        .HasColumnName("OrderItemId");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)")
@@ -68,27 +73,9 @@ namespace Persistence.Migrations
 
                     b.HasIndex("BookshelfId");
 
-                    b.ToTable("Books", (string)null);
+                    b.HasIndex("CategoryId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Author = "Charles Dickens",
-                            CategoryId = 1,
-                            Price = 50m,
-                            PublicationDate = new DateTime(2023, 8, 9, 10, 12, 33, 482, DateTimeKind.Local).AddTicks(4367),
-                            Title = "Buyuk Umutlar"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Author = "Sabahattin Ali",
-                            CategoryId = 2,
-                            Price = 100m,
-                            PublicationDate = new DateTime(2023, 8, 9, 10, 12, 33, 482, DateTimeKind.Local).AddTicks(4378),
-                            Title = "Kuyucakli Yusuf"
-                        });
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Bookshelf", b =>
@@ -110,6 +97,8 @@ namespace Persistence.Migrations
                         .HasColumnName("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Bookshelves", (string)null);
                 });
@@ -155,6 +144,8 @@ namespace Persistence.Migrations
                         .HasColumnName("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders", (string)null);
                 });
@@ -204,7 +195,7 @@ namespace Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("BookId");
 
-                    b.Property<int>("Rating")
+                    b.Property<int?>("Rating")
                         .HasColumnType("int")
                         .HasColumnName("Rating");
 
@@ -218,6 +209,10 @@ namespace Persistence.Migrations
                         .HasColumnName("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reviews", (string)null);
                 });
@@ -241,7 +236,7 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Password");
 
-                    b.Property<DateTime>("PasswordUpdatedAt")
+                    b.Property<DateTime?>("PasswordUpdatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("PasswordUpdatedAt");
 
@@ -261,18 +256,87 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Book", b =>
                 {
-                    b.HasOne("Domain.Entities.Bookshelf", null)
+                    b.HasOne("Domain.Entities.Bookshelf", "Bookshelf")
                         .WithMany("Books")
                         .HasForeignKey("BookshelfId");
+
+                    b.HasOne("Domain.Entities.Category", "Category")
+                        .WithMany("Books")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Bookshelf");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Bookshelf", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Bookshelves")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Order", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.OrderItem", b =>
                 {
-                    b.HasOne("Domain.Entities.Order", null)
+                    b.HasOne("Domain.Entities.Book", "Book")
+                        .WithOne("OrderItem")
+                        .HasForeignKey("Domain.Entities.OrderItem", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Review", b =>
+                {
+                    b.HasOne("Domain.Entities.Book", "Book")
+                        .WithMany("Reviews")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Book", b =>
+                {
+                    b.Navigation("OrderItem")
+                        .IsRequired();
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("Domain.Entities.Bookshelf", b =>
@@ -280,9 +344,23 @@ namespace Persistence.Migrations
                     b.Navigation("Books");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Category", b =>
+                {
+                    b.Navigation("Books");
+                });
+
             modelBuilder.Entity("Domain.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("Domain.Entities.User", b =>
+                {
+                    b.Navigation("Bookshelves");
+
+                    b.Navigation("Orders");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

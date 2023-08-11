@@ -12,16 +12,18 @@ namespace Domain.Entities
         public int BookId { get; set; }
         public int UserId { get; set; }
         public string ReviewText { get; set; }
-        public int Rating { get; set; }//How to be on a scale of 1 to 10
+        public int? Rating { get; set; }//How to be on a scale of 1 to 10
+        public Book? Book { get; set; }
+        public User? User { get; set; }
 
-        public Review(int id,int bookId, int userId, string reviewText, int rating)
+        public Review(int id, int bookId, int userId, string reviewText, int rating) : base(id)
         {
-            this.Id = id;
             BookId = bookId;
             UserId = userId;
             ReviewText = reviewText;
             Rating = rating;
         }
+
         public Review()
         {
             
