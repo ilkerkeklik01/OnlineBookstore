@@ -24,12 +24,7 @@
     <Folder Include="Features\OrderItems\Rules\" />
     <Folder Include="Features\Orders\Constants\" />
     <Folder Include="Features\Orders\Rules\" />
-    <Folder Include="Features\Reviews\Commands\" />
     <Folder Include="Features\Reviews\Constants\" />
-    <Folder Include="Features\Reviews\Dtos\" />
-    <Folder Include="Features\Reviews\Models\" />
-    <Folder Include="Features\Reviews\Profiles\" />
-    <Folder Include="Features\Reviews\Queries\" />
     <Folder Include="Features\Reviews\Rules\" />
     <Folder Include="Features\Users\Commands\" />
     <Folder Include="Features\Users\Constants\" />
