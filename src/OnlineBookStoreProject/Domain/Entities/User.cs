@@ -13,10 +13,10 @@ namespace Domain.Entities
         public string Email { get; set; }
         public string Password { get; set; }
         public DateTime RegistrationDate { get; set; }
-        public DateTime? PasswordUpdatedAt { get; set; }
-        public ICollection<Bookshelf> Bookshelves { get; set; }
-        public ICollection<Order> Orders { get; set; }
-        public ICollection<Review> Reviews { get; set; }
+        public DateTime PasswordUpdatedAt { get; set; }
+        public ICollection<Bookshelf>? Bookshelves { get; set; }
+        public ICollection<Order>? Orders { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
 
         public User()
         {

@@ -18,23 +18,21 @@ namespace WebAPI.Controllers
     {
         
 
+
         [HttpPost("add")]
         public async Task<IActionResult> Add([FromBody] CreateReviewCommand command)
         {
             CreatedReviewDto createdReviewDto = await Mediator.Send(command);
             return Created("", createdReviewDto);
-
         }
 
+
+        
         [HttpGet("getlist")]
         public async Task<IActionResult> GetList([FromQuery] GetListReviewQuery query)
         {
             ReviewListModel reviewListModel = await Mediator.Send(query);
             return Ok(reviewListModel);
         }
-
-
-
-
     }
 }
