@@ -20,21 +20,26 @@ namespace Application.Features.Bookshelves.Commands.CreateBook
         public class CreateBookshelfCommandHandler : IRequestHandler<CreateBookshelfCommand, CreatedBookshelfDto>
         {
 
-            private readonly IBookshelfRepository _repository;
+            private readonly IBookshelfRepository _bookshelfRepository;
             private readonly IMapper _mapper;
-
-            public CreateBookshelfCommandHandler(IBookshelfRepository repository, IMapper mapper)
+            private readonly IUserRepository _userRepository;
+            public CreateBookshelfCommandHandler(IBookshelfRepository repository, IMapper mapper,IUserRepository userRepository)
             {
-                _repository = repository;
+                _bookshelfRepository = repository;
                 _mapper = mapper;
+                _userRepository = userRepository;
             }
 
             public async Task<CreatedBookshelfDto> Handle(CreateBookshelfCommand request, CancellationToken cancellationToken)
             {
                 Bookshelf mappedBookshelf = _mapper.Map<Bookshelf>(request);
-                Bookshelf createdBookshelf = await _repository.AddAsync(mappedBookshelf);
+
+                mappedBookshelf.User = await _userRepository.GetAsync(u=>u.Id==mappedBookshelf.UserId);
+
+                Bookshelf createdBookshelf = await _bookshelfRepository.AddAsync(mappedBookshelf);
                 CreatedBookshelfDto createdBookshelfDto = _mapper.Map<CreatedBookshelfDto>(createdBookshelf);
                 return createdBookshelfDto;
+
             }
 
 

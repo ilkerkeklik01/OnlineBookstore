@@ -23,7 +23,7 @@ namespace Domain.Entities
             
         }
 
-        public User(int id,string username, string email, string password, DateTime registrationDate, DateTime? passwordUpdatedAt)
+        public User(int id,string username, string email, string password, DateTime registrationDate, DateTime passwordUpdatedAt)
         {
             this.Id = id;
             Username = username;

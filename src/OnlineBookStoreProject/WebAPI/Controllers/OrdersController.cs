@@ -1,8 +1,4 @@
-﻿using Application.Features.OrderItems.Commands.CreateOrderItem;
-using Application.Features.OrderItems.Dtos;
-using Application.Features.OrderItems.Models;
-using Application.Features.OrderItems.Queries.GetListOrderItem;
-using Application.Features.Orders.Commands.CreateOrder;
+﻿using Application.Features.Orders.Commands.CreateOrder;
 using Application.Features.Orders.Dtos;
 using Application.Features.Orders.Models;
 using Application.Features.Orders.Queries.GetListOrder;

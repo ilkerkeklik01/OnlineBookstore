@@ -20,13 +20,15 @@ namespace Application.Features.Orders.Commands.CreateOrder
 
         public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, CreatedOrderDto>
         {
-            private readonly IOrderRepository _repository;
+            private readonly IOrderRepository _orderRepository;
             private readonly IMapper _mapper;
+            private readonly IUserRepository _userRepository;
 
-            public CreateOrderCommandHandler(IOrderRepository repository, IMapper mapper)
+            public CreateOrderCommandHandler(IOrderRepository repository, IMapper mapper, IUserRepository userRepository)
             {
-                _repository = repository;
+                _orderRepository = repository;
                 _mapper = mapper;
+                _userRepository = userRepository;
             }
 
 
@@ -34,7 +36,11 @@ namespace Application.Features.Orders.Commands.CreateOrder
             {   
                 Order mappedOrder = _mapper.Map<Order>(request);
                 mappedOrder.OrderDate=DateTime.Now;
-                Order createdOrder = await _repository.AddAsync(mappedOrder);
+
+                mappedOrder.User = await _userRepository.GetAsync(b => b.Id == mappedOrder.UserId);
+
+
+                Order createdOrder = await _orderRepository.AddAsync(mappedOrder);
                 CreatedOrderDto createdOrderDto = _mapper.Map<CreatedOrderDto>(createdOrder);
                 return createdOrderDto;
 

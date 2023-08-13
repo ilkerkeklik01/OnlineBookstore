@@ -22,20 +22,28 @@ namespace Application.Features.Reviews.Commands.CreateReview
 
         public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, CreatedReviewDto>
         {
-            private readonly IReviewRepository _repository;
+            private readonly IReviewRepository _reviewRepository;
             private readonly IMapper _mapper;
-
-            public CreateReviewCommandHandler(IReviewRepository repository,IMapper mapper)
+            private readonly IUserRepository _userRepository;
+            private readonly IBookRepository _bookRepository;
+            public CreateReviewCommandHandler(IReviewRepository reviewRepository,IMapper mapper, IUserRepository userRepository, IBookRepository bookRepository)
             {
-                _repository = repository;
+                _reviewRepository = reviewRepository;
                 _mapper = mapper;
+                _userRepository = userRepository;
+                _bookRepository = bookRepository;
             }
 
             public async Task<CreatedReviewDto> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
             {
                 Review mappedReview = _mapper.Map<Review>(request);
                 mappedReview.CreatedAt =DateTime.Now;
-                Review createdReview = await _repository.AddAsync(mappedReview);
+
+                mappedReview.User = await _userRepository.GetAsync(u=>u.Id==mappedReview.UserId);
+                mappedReview.Book = await _bookRepository.GetAsync(b=>b.Id==mappedReview.BookId);
+
+
+                Review createdReview = await _reviewRepository.AddAsync(mappedReview);
                 CreatedReviewDto createdReviewDto = _mapper.Map<CreatedReviewDto>(createdReview);
                 return createdReviewDto;
             }

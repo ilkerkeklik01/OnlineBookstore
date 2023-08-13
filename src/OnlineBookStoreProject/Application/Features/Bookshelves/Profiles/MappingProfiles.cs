@@ -12,9 +12,14 @@ public class MappingProfiles:Profile
 
     public MappingProfiles()
     {
-        CreateMap<Bookshelf,BookshelfListDto>().ForMember(c=>c.UserName,
-            opt=>opt.MapFrom(c=>c.User.Username));
+
+
+        CreateMap<Bookshelf, BookshelfListDto>().ForMember(c => c.UserName,
+            opt => opt.MapFrom(c => c.User!=null ? c.User.Username : "HATAAA"));
+
         CreateMap<IPaginate<Bookshelf>,BookshelfListModel>();
+        
+
 
         CreateMap<CreateBookshelfCommand,Bookshelf>();
 
