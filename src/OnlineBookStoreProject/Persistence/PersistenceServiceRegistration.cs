@@ -34,6 +34,7 @@ namespace Persistence
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IBookshelfRepository, BookshelfRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IBasketItemRepository, BasketItemRepository>();
 
 
 

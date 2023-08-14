@@ -30,7 +30,6 @@ namespace Application.Features.Books.Queries.GetListBook
                 _mapper = mapper;
             }
 
-
             
             public async Task<BookListModel> Handle(GetListBookQuery request, CancellationToken cancellationToken)
             {

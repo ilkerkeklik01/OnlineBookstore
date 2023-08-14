@@ -17,7 +17,6 @@ namespace Domain.Entities
         public ICollection<Bookshelf>? Bookshelves { get; set; }
         public ICollection<Order>? Orders { get; set; }
         public ICollection<Review>? Reviews { get; set; }
-
         public User()
         {
             

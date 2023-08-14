@@ -20,6 +20,7 @@ namespace Persistence.Contexts
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<BasketItem> BasketItems { get; set; }
 
         public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration):base(dbContextOptions)
         {
@@ -35,6 +36,20 @@ namespace Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<BasketItem>(basket =>
+            {
+                basket.ToTable("BasketItems").HasKey(x => x.Id);
+                basket.Property(x => x.Id).UseIdentityColumn(1, 1);
+                basket.Property(p => p.Id).HasColumnName("Id").IsRequired(true);
+                basket.Property(p => p.UserId).HasColumnName("UserId").IsRequired(true);
+                basket.Property(p => p.OrderItemId).HasColumnName("OrderItemId").IsRequired(true);
+            });
+           
+
+            
+
+
+
             //Book Entity
             modelBuilder.Entity<Book>(book =>
             {
@@ -50,6 +65,8 @@ namespace Persistence.Contexts
                 book.Property(p => p.CoverImagePath).HasColumnName("CoverImagePath").IsRequired(false);
                 book.Property(p => p.PublicationDate).HasColumnName("PublicationDate");
                 book.Property(p => p.OrderItemId).HasColumnName("OrderItemId").IsRequired(false);
+                book.Property(p => p.Discount).HasColumnName("Discount");
+
             });
 
             modelBuilder.Entity<Book>(book =>
@@ -121,7 +138,6 @@ namespace Persistence.Contexts
                 orderItem.Property(p => p.OrderId).HasColumnName("OrderId");
                 orderItem.Property(p => p.BookId).HasColumnName("BookId");
                 orderItem.Property(p => p.Quantity).HasColumnName("Quantity");
-                orderItem.Property(p => p.Discount).HasColumnName("Discount");
             });
             modelBuilder.Entity<OrderItem>(orderItem =>
             {
@@ -157,13 +173,14 @@ namespace Persistence.Contexts
             modelBuilder.Entity<User>(user => 
             {
                 user.ToTable("Users").HasKey(x=>x.Id);
+                
                 user.Property(x=>x.Id).UseIdentityColumn(1,1);
-                user.Property(p=>p.Id).HasColumnName("Id");
-                user.Property(p=>p.Username).HasColumnName("Username"); 
-                user.Property(p=>p.Email).HasColumnName("Email");
-                user.Property(p=>p.Password).HasColumnName("Password");
-                user.Property(p=>p.RegistrationDate).HasColumnName("RegistrationDate");
-                user.Property(p=>p.PasswordUpdatedAt).HasColumnName("PasswordUpdatedAt");
+                user.Property(p=>p.Id).HasColumnName("Id").IsRequired(true);
+                user.Property(p=>p.Username).HasColumnName("Username").IsRequired(true); 
+                user.Property(p=>p.Email).HasColumnName("Email").IsRequired(true);
+                user.Property(p=>p.Password).HasColumnName("Password").IsRequired(true);
+                user.Property(p=>p.RegistrationDate).HasColumnName("RegistrationDate").IsRequired(true);
+                user.Property(p=>p.PasswordUpdatedAt).HasColumnName("PasswordUpdatedAt").IsRequired(true);
 
             });
             modelBuilder.Entity<User>(user =>

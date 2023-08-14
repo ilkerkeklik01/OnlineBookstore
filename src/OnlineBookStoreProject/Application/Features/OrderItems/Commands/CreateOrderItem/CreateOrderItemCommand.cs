@@ -15,11 +15,9 @@ namespace Application.Features.OrderItems.Commands.CreateOrderItem
 {
     public class CreateOrderItemCommand : IRequest<CreatedOrderItemDto>
     {
-        public int OrderId { get; set; }
+        public int UserId { get; set; }
         public int BookId { get; set; }
-        public int Quantity { get; set; }
-        public decimal Discount { get; set; }
-
+        public int Quantity { get; set; } = 1;
         public class CreateOrderItemCommandHandler : IRequestHandler<CreateOrderItemCommand, CreatedOrderItemDto>
         {
             private readonly IOrderItemRepository _orderRepository;
@@ -30,19 +28,22 @@ namespace Application.Features.OrderItems.Commands.CreateOrderItem
             {
                 _orderRepository = repository;
                 _mapper = mapper;
-                _bookRepository = bookRepository;
             }
 
 
             public async Task<CreatedOrderItemDto> Handle(CreateOrderItemCommand request, CancellationToken cancellationToken)
             {
                 OrderItem mappedOrderItem = _mapper.Map<OrderItem>(request);
-
+                mappedOrderItem.IsInTheBasket = true;
+                
                 mappedOrderItem.Book = await _bookRepository.GetAsync(b => b.Id == mappedOrderItem.BookId);
 
                 OrderItem createdOrderItem = await _orderRepository.AddAsync(mappedOrderItem);
                 CreatedOrderItemDto createdOrderItemDto = _mapper.Map<CreatedOrderItemDto>(createdOrderItem);
                 return createdOrderItemDto;
+
+
+
             }
 
 

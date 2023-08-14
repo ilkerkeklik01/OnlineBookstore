@@ -29,6 +29,7 @@ namespace WebAPI.Controllers
         {
             CreatedCategoryDto res = await Mediator.Send(createCategoryCommand);
             return Created("", res);
+            
         }
 
 

@@ -22,6 +22,30 @@ namespace Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entities.BasketItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("OrderItemId")
+                        .HasColumnType("int")
+                        .HasColumnName("OrderItemId");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("BasketItems", (string)null);
+                });
+
             modelBuilder.Entity("Domain.Entities.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -51,6 +75,10 @@ namespace Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Description");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("Discount");
 
                     b.Property<int?>("OrderItemId")
                         .HasColumnType("int")
@@ -163,11 +191,10 @@ namespace Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("BookId");
 
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("Discount");
+                    b.Property<bool>("IsInTheBasket")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("OrderId")
+                    b.Property<int?>("OrderId")
                         .HasColumnType("int")
                         .HasColumnName("OrderId");
 
@@ -175,9 +202,14 @@ namespace Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Quantity");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("OrderItems", (string)null);
                 });
@@ -194,6 +226,9 @@ namespace Persistence.Migrations
                     b.Property<int>("BookId")
                         .HasColumnType("int")
                         .HasColumnName("BookId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("Rating")
                         .HasColumnType("int")
@@ -236,7 +271,7 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("Password");
 
-                    b.Property<DateTime?>("PasswordUpdatedAt")
+                    b.Property<DateTime>("PasswordUpdatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("PasswordUpdatedAt");
 
@@ -252,6 +287,17 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.BasketItem", b =>
+                {
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.Book", b =>
@@ -304,12 +350,19 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Entities.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Book");
 
                     b.Navigation("Order");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.Review", b =>

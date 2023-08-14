@@ -23,15 +23,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Security", "src\corePa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OnlineBookstoreProject", "OnlineBookstoreProject", "{2CCCF41C-26B8-4348-856F-CE70CAC1E009}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\OnlineBookStoreProject\Infrastructure\Infrastructure.csproj", "{ACCF90C5-DDDB-4347-B697-EB888A8DE152}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\OnlineBookStoreProject\Infrastructure\Infrastructure.csproj", "{ACCF90C5-DDDB-4347-B697-EB888A8DE152}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\OnlineBookStoreProject\Domain\Domain.csproj", "{48A0448F-6E86-4EC1-8A34-70836D7ABF91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\OnlineBookStoreProject\Domain\Domain.csproj", "{48A0448F-6E86-4EC1-8A34-70836D7ABF91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "src\OnlineBookStoreProject\Persistence\Persistence.csproj", "{4AAD2785-7975-4709-8933-2895D212798B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "src\OnlineBookStoreProject\Persistence\Persistence.csproj", "{4AAD2785-7975-4709-8933-2895D212798B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "src\OnlineBookStoreProject\WebAPI\WebAPI.csproj", "{0144A8BD-A1E4-4AF2-8B86-14E2514C6420}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "src\OnlineBookStoreProject\WebAPI\WebAPI.csproj", "{0144A8BD-A1E4-4AF2-8B86-14E2514C6420}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\OnlineBookStoreProject\Application\Application.csproj", "{433C6368-35E7-4575-A374-2B68D38C11B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\OnlineBookStoreProject\Application\Application.csproj", "{433C6368-35E7-4575-A374-2B68D38C11B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

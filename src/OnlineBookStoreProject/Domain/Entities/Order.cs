@@ -14,10 +14,13 @@ namespace Domain.Entities
         public decimal TotalPrice { get; set; }
         public ICollection<OrderItem>? OrderItems { get; set; }
         public User? User { get; set;}
+        
+        
         public Order()
         {
             
         }
+
 
         public Order(int id, int userId, DateTime orderDate, decimal totalPrice) : base(id)
         {

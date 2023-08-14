@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Features.Users.Dtos;
@@ -23,7 +24,6 @@ namespace Application.Features.Users.Commands.CreateUser
         {
             private readonly IUserRepository _repository;
             private readonly IMapper _mapper;
-
             public CreateUserCommandHandler(IUserRepository repository,IMapper mapper)
             {
                 _repository = repository;
@@ -36,10 +36,14 @@ namespace Application.Features.Users.Commands.CreateUser
                 User mappedUser = _mapper.Map<User>(request);
                 mappedUser.PasswordUpdatedAt=DateTime.Now;
                 mappedUser.RegistrationDate=DateTime.Now;
+
                 User createdUser = await _repository.AddAsync(mappedUser);
+
                 CreatedUserDto createdUserDto = _mapper.Map<CreatedUserDto>(createdUser);
                 return createdUserDto;
             }
+
+
 
 
         }

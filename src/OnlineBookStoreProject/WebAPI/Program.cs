@@ -25,11 +25,38 @@ namespace WebAPI
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+
+
+            //if (app.Environment.IsDevelopment())
+            //    {
+            //        app.UseDeveloperExceptionPage();
+            //    }
+            //    else
+            //    {
+            //        app.UseExceptionHandler("/Home/Error");
+            //        app.UseHsts();
+            //    }
+            //    app.UseHttpsRedirection();
+            //    app.UseStaticFiles();
+            //    app.UseRouting();
+            //    app.UseAuthentication();
+            //    app.UseEndpoints(endpoints =>
+            //    {
+            //        endpoints.MapControllerRoute(
+            //            name: "default",
+            //            pattern: "{controller=Home}/{action=Index}/{id?}");
+            //    });
+            
+
+
+
 
             app.UseAuthorization();
 

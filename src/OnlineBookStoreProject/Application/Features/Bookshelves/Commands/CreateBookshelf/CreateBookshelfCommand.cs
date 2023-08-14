@@ -9,7 +9,7 @@ using AutoMapper;
 using Domain.Entities;
 using MediatR;
 
-namespace Application.Features.Bookshelves.Commands.CreateBook
+namespace Application.Features.Bookshelves.Commands.CreateBookshelf
 {
     public class CreateBookshelfCommand : IRequest<CreatedBookshelfDto>
     {

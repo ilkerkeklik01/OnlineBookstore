@@ -19,6 +19,7 @@ namespace Application.Features.Books.Commands.CreateBook
         public int CategoryId { get; set; }
         public string? Description { get; set; }
         public decimal Price { get; set; }
+        public decimal Discount { get; set; }
         public DateTime PublicationDate { get; set; }
         public string? CoverImagePath { get; set; }
 

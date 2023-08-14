@@ -38,8 +38,6 @@ namespace Application.Features.OrderItems.Queries.GetListOrderItem
                 OrderItemListModel orderItemListModel = _mapper.Map<OrderItemListModel>(orderItems);
 
                 return orderItemListModel;
-
-
             }
 
 

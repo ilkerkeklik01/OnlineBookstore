@@ -19,9 +19,13 @@ namespace Application.Features.OrderItems.Profiles
             CreateMap<CreateOrderItemCommand,OrderItem>();
             CreateMap<OrderItem,CreatedOrderItemDto>().ForMember(c=>c.BookTitle,
                 opt=>opt.MapFrom(c=>c.Book.Title)
+                    
                 );
+
             CreateMap<IPaginate<OrderItem>,OrderItemListModel>();
-            CreateMap<OrderItem,OrderItemListDto>();
+            CreateMap<OrderItem,OrderItemListDto>().ForMember(c=>c.BookTitle,
+                opt=>opt.MapFrom(c=>c.Book.Title)
+                );
 
 
         }

@@ -1,4 +1,4 @@
-﻿using Application.Features.Bookshelves.Commands.CreateBook;
+﻿using Application.Features.Bookshelves.Commands.CreateBookshelf;
 using Application.Features.Bookshelves.Dtos;
 using Application.Features.Bookshelves.Models;
 using AutoMapper;
