@@ -20,7 +20,6 @@ namespace Persistence.Contexts
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<BasketItem> BasketItems { get; set; }
 
         public BaseDbContext(DbContextOptions dbContextOptions, IConfiguration configuration):base(dbContextOptions)
         {
@@ -36,19 +35,7 @@ namespace Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BasketItem>(basket =>
-            {
-                basket.ToTable("BasketItems").HasKey(x => x.Id);
-                basket.Property(x => x.Id).UseIdentityColumn(1, 1);
-                basket.Property(p => p.Id).HasColumnName("Id").IsRequired(true);
-                basket.Property(p => p.UserId).HasColumnName("UserId").IsRequired(true);
-                basket.Property(p => p.OrderItemId).HasColumnName("OrderItemId").IsRequired(true);
-            });
-           
-
             
-
-
 
             //Book Entity
             modelBuilder.Entity<Book>(book =>
@@ -135,16 +122,15 @@ namespace Persistence.Contexts
                 orderItem.ToTable("OrderItems").HasKey(x => x.Id);
                 orderItem.Property(x=>x.Id).UseIdentityColumn(1,1);
                 orderItem.Property(p => p.Id).HasColumnName("Id");
-                orderItem.Property(p => p.OrderId).HasColumnName("OrderId");
+                orderItem.Property(p => p.OrderId).HasColumnName("OrderId").IsRequired(false);
                 orderItem.Property(p => p.BookId).HasColumnName("BookId");
                 orderItem.Property(p => p.Quantity).HasColumnName("Quantity");
             });
             modelBuilder.Entity<OrderItem>(orderItem =>
             {
                 orderItem.HasOne(x => x.Book).
-                    WithOne(x=>x.OrderItem).HasForeignKey<OrderItem>(x=>x.Id).OnDelete(DeleteBehavior.Restrict);
-                orderItem.HasOne(x => x.Order).WithMany(x=>x.OrderItems).
-                    OnDelete(DeleteBehavior.Restrict);
+                    WithOne(x=>x.OrderItem).HasForeignKey<OrderItem>(x=>x.BookId).OnDelete(DeleteBehavior.Restrict);
+                orderItem.HasOne(x => x.Order);
             });
 
             //Review Entity

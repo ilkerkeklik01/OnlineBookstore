@@ -21,8 +21,8 @@ namespace Domain.Entities
         public string? CoverImagePath { get; set; }
         public Bookshelf? Bookshelf { get; set; }
         public Category? Category { get; set; }
-        public ICollection<Review> Reviews { get; set; }
-        public OrderItem OrderItem { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
+        public OrderItem? OrderItem { get; set; }
         public Book(int id, string title,int orderItemId, string author, int categoryId, int bookShelfId, string? description, decimal price, DateTime publicationDate, string? coverImagePath) : base(id)
         {
             Title = title;

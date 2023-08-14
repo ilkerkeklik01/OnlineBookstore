@@ -9,7 +9,7 @@ namespace Domain.Entities
 {
     public class OrderItem:Entity
     {
-        public int? OrderId { get; set; }
+        public int? OrderId { get; set; } // = 0;
         public int BookId { get; set; }
         public int UserId { get; set; }
         public int Quantity { get; set; }
@@ -20,8 +20,9 @@ namespace Domain.Entities
 
         public OrderItem()
         {
-            
+
         }
+
 
         public OrderItem(int id, int orderId, int bookId, int quantity,int userId) : base(id)
         {

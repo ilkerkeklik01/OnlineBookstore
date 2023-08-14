@@ -10,6 +10,9 @@
         public decimal Price { get; set; }
         public DateTime PublicationDate { get; set; }
         public string? CoverImagePath { get; set; }
+        public decimal Discount { get; set; }
+
+
     }
 }
 
