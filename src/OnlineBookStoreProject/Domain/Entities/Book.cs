@@ -13,7 +13,7 @@ namespace Domain.Entities
         public string Author { get; set; }
         public int CategoryId { get; set; }
         public int? BookshelfId { get; set; }
-        public int? OrderItemId { get; set; }
+        //public int? OrderItemId { get; set; }
         public string? Description { get; set; }
         public decimal Price { get; set; }
         public decimal Discount { get; set; }
@@ -22,8 +22,8 @@ namespace Domain.Entities
         public Bookshelf? Bookshelf { get; set; }
         public Category? Category { get; set; }
         public ICollection<Review>? Reviews { get; set; }
-        public OrderItem? OrderItem { get; set; }
-        public Book(int id, string title,int orderItemId, string author, int categoryId, int bookShelfId, string? description, decimal price, DateTime publicationDate, string? coverImagePath) : base(id)
+        public ICollection<OrderItem>? OrderItems { get; set; }
+        public Book(int id, string title, string author, int categoryId, int bookShelfId, string? description, decimal price, DateTime publicationDate, string? coverImagePath) : base(id)
         {
             Title = title;
             Author = author;
@@ -33,7 +33,7 @@ namespace Domain.Entities
             Price = price;
             PublicationDate = publicationDate;
             CoverImagePath = coverImagePath;
-            OrderItemId = orderItemId;
+            //OrderItemId = orderItemId;
         }
 
 

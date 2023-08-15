@@ -51,7 +51,7 @@ namespace Persistence.Contexts
                 book.Property(p => p.BookshelfId).HasColumnName("BookshelfId").IsRequired(false);
                 book.Property(p => p.CoverImagePath).HasColumnName("CoverImagePath").IsRequired(false);
                 book.Property(p => p.PublicationDate).HasColumnName("PublicationDate");
-                book.Property(p => p.OrderItemId).HasColumnName("OrderItemId").IsRequired(false);
+                //book.Property(p => p.OrderItemId).HasColumnName("OrderItemId").IsRequired(false);
                 book.Property(p => p.Discount).HasColumnName("Discount");
 
             });
@@ -62,7 +62,7 @@ namespace Persistence.Contexts
                     OnDelete(DeleteBehavior.Restrict);
                 book.HasOne(x => x.Bookshelf).WithMany(x=>x.Books);
                 book.HasMany(x => x.Reviews);
-                book.HasOne(x => x.OrderItem);
+                book.HasMany(x => x.OrderItems);
 
             });
 
@@ -129,7 +129,7 @@ namespace Persistence.Contexts
             modelBuilder.Entity<OrderItem>(orderItem =>
             {
                 orderItem.HasOne(x => x.Book).
-                    WithOne(x=>x.OrderItem).HasForeignKey<OrderItem>(x=>x.BookId).OnDelete(DeleteBehavior.Restrict);
+                    WithMany(x=>x.OrderItems).HasForeignKey(x=>x.BookId).OnDelete(DeleteBehavior.Restrict);
                 orderItem.HasOne(x => x.Order);
             });
 

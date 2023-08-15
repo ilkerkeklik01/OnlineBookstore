@@ -4,8 +4,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Features.Books.Dtos;
 using Application.Services.Repositories;
 using Core.CrossCuttingConcerns.Exceptions;
+using Core.Persistence.Paging;
 using Domain.Entities;
 
 namespace Application.Features.OrderItems.Rules
@@ -62,6 +64,18 @@ namespace Application.Features.OrderItems.Rules
             if (!isInTheBasket)
             {
                 throw new BusinessException("Cannot increase the quantity of order item that is not in the basket!");
+            }
+
+        }
+
+        public async Task CannotCreateOrderItemWithExistingBookIfItIsInTheBasketOfTheSameUser(int bookId,int userId)
+        {
+            IPaginate<OrderItem> orderItems = await _orderItemRepository.GetListAsync(x=>x.BookId==bookId && x.IsInTheBasket&& x.UserId==userId);
+            bool isAny=orderItems.Items.Any();
+
+            if (isAny)
+            {
+                throw new BusinessException("You cannot create an order item with existing book if it is in the basket of the same user! Try to increase quantity.");
             }
 
         }

@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Features.OrderItems.Dtos;
+using Application.Features.OrderItems.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -24,18 +25,24 @@ namespace Application.Features.OrderItems.Commands.CreateOrderItem
             private readonly IMapper _mapper;
             private readonly IBookRepository _bookRepository;
             private readonly IUserRepository _userRepository;
-            public CreateOrderItemCommandHandler(IOrderItemRepository repository,IMapper mapper,IBookRepository bookRepository, IUserRepository userRepository)
+            private readonly OrderItemBusinessRules _businessRules;
+            public CreateOrderItemCommandHandler(IOrderItemRepository repository,IMapper mapper,IBookRepository bookRepository, IUserRepository userRepository, OrderItemBusinessRules businessRules)
             {
                 _orderRepository = repository;
                 _mapper = mapper;
                 _bookRepository = bookRepository;
                 _userRepository = userRepository;
+                _businessRules = businessRules;
             }
 
 
             public async Task<CreatedOrderItemDto> Handle(CreateOrderItemCommand request, CancellationToken cancellationToken)
             {
+                await _businessRules.CannotCreateOrderItemWithExistingBookIfItIsInTheBasketOfTheSameUser(request.BookId,
+                    request.UserId);
+
                 OrderItem mappedOrderItem = _mapper.Map<OrderItem>(request);
+                
                 mappedOrderItem.IsInTheBasket = true;
                 mappedOrderItem.Quantity = 1;
                 mappedOrderItem.Book = await _bookRepository.GetAsync(b => b.Id == mappedOrderItem.BookId);
