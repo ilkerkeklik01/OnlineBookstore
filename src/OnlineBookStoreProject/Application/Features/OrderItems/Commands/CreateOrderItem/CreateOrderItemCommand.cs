@@ -17,7 +17,7 @@ namespace Application.Features.OrderItems.Commands.CreateOrderItem
     {
         public int UserId { get; set; }
         public int BookId { get; set; }
-        public int? Quantity { get; set; } = 1;
+        //public int? Quantity { get; set; } = 1;
         public class CreateOrderItemCommandHandler : IRequestHandler<CreateOrderItemCommand, CreatedOrderItemDto>
         {
             private readonly IOrderItemRepository _orderRepository;
@@ -37,14 +37,13 @@ namespace Application.Features.OrderItems.Commands.CreateOrderItem
             {
                 OrderItem mappedOrderItem = _mapper.Map<OrderItem>(request);
                 mappedOrderItem.IsInTheBasket = true;
-                
+                mappedOrderItem.Quantity = 1;
                 mappedOrderItem.Book = await _bookRepository.GetAsync(b => b.Id == mappedOrderItem.BookId);
                 mappedOrderItem.User = await _userRepository.GetAsync(u => u.Id == mappedOrderItem.UserId);
 
                 OrderItem createdOrderItem = await _orderRepository.AddAsync(mappedOrderItem);
                 CreatedOrderItemDto createdOrderItemDto = _mapper.Map<CreatedOrderItemDto>(createdOrderItem);
                 return createdOrderItemDto;
-
             }
 
 

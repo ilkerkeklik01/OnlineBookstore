@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Features.Books.Commands.CreateBook;
+using Application.Features.OrderItems.Rules;
 using Core.Application.Pipelines.Validation;
 using FluentValidation;
 using MediatR;
@@ -28,6 +29,7 @@ namespace Application
 
 
             services.AddScoped<BookBusinessRules>();
+            services.AddScoped<OrderItemBusinessRules>();
 
             return services;
 

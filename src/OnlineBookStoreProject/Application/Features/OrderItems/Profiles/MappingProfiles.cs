@@ -31,7 +31,16 @@ namespace Application.Features.OrderItems.Profiles
                 opt => opt.MapFrom(x => x.User.Username)
             ).ForMember(x => x.Discount,
                 opt => opt.MapFrom(x => x.Book.Discount)
-            ); 
+            );
+
+            CreateMap<OrderItem,OrderItemDto>().ForMember(c => c.BookTitle,
+                opt => opt.MapFrom(c => c.Book.Title)).ForMember(x => x.UserName,
+                opt => opt.MapFrom(x => x.User.Username)
+            ).ForMember(x => x.Discount,
+                opt => opt.MapFrom(x => x.Book.Discount)
+            );
+            ;
+
 
 
 

@@ -1,4 +1,6 @@
 ﻿using Application.Features.OrderItems.Commands.CreateOrderItem;
+using Application.Features.OrderItems.Commands.DecreaseQuantityByOneOrderItem;
+using Application.Features.OrderItems.Commands.IncreaseQuantityByOneOrderItem;
 using Application.Features.OrderItems.Dtos;
 using Application.Features.OrderItems.Models;
 using Application.Features.OrderItems.Queries.GetListOrderItem;
@@ -25,6 +27,25 @@ namespace WebAPI.Controllers
         {
             OrderItemListModel orderItemListModel = await Mediator.Send(query);
             return Ok(orderItemListModel);
+        }
+
+        [HttpPost("increase={Id}")]
+        public async Task<IActionResult> IncreaseQuantityOfOrderItem(
+            [FromRoute] IncreaseQuantityByOneOrderItemCommand command)
+        {
+            OrderItemDto orderItemDto = await Mediator.Send(command);
+            return Ok(orderItemDto);
+        }
+
+        [HttpPost("decrease={Id}")]
+
+        public async Task<IActionResult> DecreaseQuantityOfOrderItem(
+            [FromRoute] DecreaseQuantityByOneOrderItemCommand command
+        )
+        {
+            OrderItemDto orderItemDto = await Mediator.Send(command);
+
+            return Ok(orderItemDto);
         }
 
 
