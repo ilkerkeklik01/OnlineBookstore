@@ -1,4 +1,5 @@
 ﻿using Application.Features.Books.Commands.CreateBook;
+using Application.Features.Books.Commands.UpdateBook;
 using Application.Features.Books.Dtos;
 using Application.Features.Books.Models;
 using Application.Features.Books.Queries.GetByIdBook;
@@ -51,6 +52,14 @@ namespace WebAPI.Controllers
 
             return Ok(result);
 
+        }
+
+        [HttpPost("update")]
+
+        public async Task<IActionResult> Update([FromBody] UpdateBookCommand updateBookCommand)
+        {
+            UpdatedBookDto res = await Mediator.Send(updateBookCommand);
+            return Created("", res);
         }
 
 

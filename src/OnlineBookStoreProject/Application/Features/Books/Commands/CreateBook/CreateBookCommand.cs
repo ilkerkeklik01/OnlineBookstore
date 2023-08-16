@@ -40,7 +40,6 @@ namespace Application.Features.Books.Commands.CreateBook
 
             public async Task<CreatedBookDto> Handle(CreateBookCommand request, CancellationToken cancellationToken)
             {
-                request.PublicationDate = DateTime.Now;
                 
                 Book mappedBook = _mapper.Map<Book>(request);
                 Book createdBook = await _repository.AddAsync(mappedBook);

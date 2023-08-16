@@ -12,6 +12,7 @@ using Application.Features.OrderItems.Rules;
 using Core.Application.Pipelines.Validation;
 using FluentValidation;
 using MediatR;
+using Application.Features.Orders.Rules;
 
 namespace Application
 {
@@ -30,6 +31,7 @@ namespace Application
 
             services.AddScoped<BookBusinessRules>();
             services.AddScoped<OrderItemBusinessRules>();
+            services.AddScoped<OrderBusinessRules>();
 
             return services;
 

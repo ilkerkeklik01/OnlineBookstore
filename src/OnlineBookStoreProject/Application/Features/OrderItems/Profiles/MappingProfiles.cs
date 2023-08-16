@@ -23,6 +23,8 @@ namespace Application.Features.OrderItems.Profiles
                 opt => opt.MapFrom(x => x.User.Username)
             ).ForMember(x => x.Discount,
                     opt => opt.MapFrom(x => x.Book.Discount)
+                ).ForMember(x => x.BookPrice,
+                    opt => opt.MapFrom(x => x.Book.Price)
                 ); 
 
             CreateMap<IPaginate<OrderItem>,OrderItemListModel>();
@@ -31,6 +33,8 @@ namespace Application.Features.OrderItems.Profiles
                 opt => opt.MapFrom(x => x.User.Username)
             ).ForMember(x => x.Discount,
                 opt => opt.MapFrom(x => x.Book.Discount)
+            ).ForMember(x => x.BookPrice,
+                opt => opt.MapFrom(x => x.Book.Price)
             );
 
             CreateMap<OrderItem,OrderItemDto>().ForMember(c => c.BookTitle,
@@ -38,6 +42,8 @@ namespace Application.Features.OrderItems.Profiles
                 opt => opt.MapFrom(x => x.User.Username)
             ).ForMember(x => x.Discount,
                 opt => opt.MapFrom(x => x.Book.Discount)
+            ).ForMember(x => x.BookPrice,
+                opt => opt.MapFrom(x => x.Book.Price)
             );
             ;
 

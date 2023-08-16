@@ -13,5 +13,7 @@ namespace Application.Features.Orders.Dtos
         public string UserName { get; set; }
         public DateTime OrderDate { get; set; }
         public decimal TotalPrice { get; set; }
+        public ICollection<OrderItemForOrderDto> OrderItems { get; set; }
+
     }
 }

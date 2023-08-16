@@ -22,9 +22,17 @@ namespace Application.Features.Books.Rules
         {
             if (book == null) throw new BusinessException("Book is not exist (null)");
         }
-       
+
+        public async Task BookNullCheckById(int id)
+        {
+            Book book = await _repository.GetAsync(x => x.Id == id);
+
+            BookNullCheck(book);
+
+        }
 
 
-        
+
+
     }
 }

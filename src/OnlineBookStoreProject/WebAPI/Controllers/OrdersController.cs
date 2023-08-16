@@ -18,7 +18,6 @@ namespace WebAPI.Controllers
         {
             CreatedOrderDto createdOrderDto = await Mediator.Send(command);
             return Created("", createdOrderDto);
-
         }
 
         [HttpGet("getlist")]

@@ -21,9 +21,29 @@ namespace Application.Features.Orders.Profiles
             CreateMap<Order,CreatedOrderDto>().ForMember(c=>c.UserName,
                 opt=>opt.MapFrom(c=>c.User.Username)
                 );
+
+
             CreateMap<IPaginate<Order>,OrderListModel>();
             CreateMap<Order,OrderListDto>().ForMember(c=>c.UserName,
-                opt=>opt.MapFrom(c=>c.User.Username));
+                opt=>opt.MapFrom(c=>c.User.Username)
+                ).ForMember(c => c.OrderItems,
+                opt => opt.MapFrom(c => c.OrderItems));
+
+
+
+            CreateMap<OrderItem, OrderItemForOrderDto>().ForMember(x=>x.UserName,
+                opt=>opt.MapFrom(x=>x.User.Username)
+                    
+                ).ForMember(x => x.BookTitle,
+                    opt => opt.MapFrom(x => x.Book.Title)
+
+                ).ForMember(x => x.Discount,
+                    opt => opt.MapFrom(x => x.Book.Discount)
+                ).ForMember(x => x.BookPrice,
+                opt => opt.MapFrom(x => x.Book.Price)
+            );
+
+
 
         }
     }

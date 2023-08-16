@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Features.OrderItems.Dtos
+namespace Application.Features.Orders.Dtos
 {
-    public class OrderItemDto
+    public class OrderItemForOrderDto
     {
+
         public int Id { get; set; }
         public int OrderId { get; set; } = 0;
         public bool IsInTheBasket { get; set; }
@@ -18,6 +19,7 @@ namespace Application.Features.OrderItems.Dtos
         public int Quantity { get; set; }
         public string BookTitle { get; set; }
         public decimal BookPrice { get; set; }
+
 
     }
 }

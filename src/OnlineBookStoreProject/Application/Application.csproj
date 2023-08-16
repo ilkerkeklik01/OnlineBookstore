@@ -22,7 +22,6 @@
     <Folder Include="Features\Categories\Rules\" />
     <Folder Include="Features\OrderItems\Constants\" />
     <Folder Include="Features\Orders\Constants\" />
-    <Folder Include="Features\Orders\Rules\" />
     <Folder Include="Features\Reviews\Constants\" />
     <Folder Include="Features\Reviews\Rules\" />
     <Folder Include="Features\Users\Constants\" />

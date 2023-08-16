@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Features.Books.Commands.UpdateBook;
 
 namespace Application.Features.Books.Profiles
 {
@@ -21,6 +22,11 @@ namespace Application.Features.Books.Profiles
             CreateMap<IPaginate<Book>, BookListModel>();
             CreateMap<Book, BookListDto>();
             CreateMap<Book, BookDto>();
+
+            CreateMap<UpdateBookCommand, Book>();
+            CreateMap<Book, UpdatedBookDto>();
+
         }
+
     }
 }
