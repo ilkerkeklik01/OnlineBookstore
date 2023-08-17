@@ -8,6 +8,7 @@ using Application.Features.Books.Dtos;
 using Application.Features.Books.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.Persistence.Paging;
 using Domain.Entities;
 using MediatR;
 
@@ -49,7 +50,13 @@ namespace Application.Features.Books.Commands.UpdateBook
                 Book mappedBook = await GetUpdatedBook(request);
 
                 Book updatedBook = await _repository.UpdateAsync(mappedBook);
+
+                //Updating order items which are in the basket of any user
+                await UpdateOrderItemsWhichAreInTheBasketOfAnyUser(updatedBook);
+
+
                 UpdatedBookDto updatedBookDto = _mapper.Map<UpdatedBookDto>(updatedBook);
+
                 return updatedBookDto;
             }
 
@@ -94,6 +101,20 @@ namespace Application.Features.Books.Commands.UpdateBook
 
             }
 
+            private async Task UpdateOrderItemsWhichAreInTheBasketOfAnyUser(Book updatedBook)
+            {
+                IPaginate<OrderItem> paginate =  await _orderItemRepository.GetListAsync(x=>x.IsInTheBasket==true&&x.BookId==updatedBook.Id);
+                List<OrderItem> orderItems = paginate.Items.ToList<OrderItem>();
+
+                //These order items will be updated
+                foreach (OrderItem item in orderItems)
+                {
+                    _mapper.Map(updatedBook,item);
+                    await _orderItemRepository.UpdateAsync(item);
+                }
+
+
+            }
 
         }
 

@@ -33,7 +33,7 @@ namespace Application.Features.Orders.Queries.GetListOrder
             public async Task<OrderListModel> Handle(GetListOrderQuery request, CancellationToken cancellationToken)
             {
                 IPaginate<Order> orders = await _repository.GetListAsync(
-                    include:o=>o.Include(order=>order.User).Include(x=>x.OrderItems).ThenInclude(x=>x.Book),
+                    include:o=>o.Include(order=>order.User).Include(x=>x.OrderItems),  //Thenİnclude book
                     size:request.PageRequest.PageSize,index:request.PageRequest.Page
                     );
 

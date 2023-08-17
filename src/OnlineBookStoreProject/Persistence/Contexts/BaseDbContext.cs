@@ -117,7 +117,18 @@ namespace Persistence.Contexts
 
             //OrderItem Entity
 
-            modelBuilder.Entity<OrderItem>(orderItem =>
+        //    public string BookTitleAtThatTime { get; set; }
+        //public string BookAuthorAtThatTime { get; set; }
+        //public int BookCategoryIdAtThatTime { get; set; }
+        //public string? BookDescriptionAtThatTime { get; set; }
+        //public decimal BookPriceAtThatTime { get; set; }
+        //public decimal BookDiscountAtThatTime { get; set; }
+        //public DateTime BookPublicationDateAtThatTime { get; set; }
+        //public string? BookCoverImagePathAtThatTime { get; set; }
+
+
+
+        modelBuilder.Entity<OrderItem>(orderItem =>
             {
                 orderItem.ToTable("OrderItems").HasKey(x => x.Id);
                 orderItem.Property(x=>x.Id).UseIdentityColumn(1,1);
@@ -125,6 +136,17 @@ namespace Persistence.Contexts
                 orderItem.Property(p => p.OrderId).HasColumnName("OrderId").IsRequired(false);
                 orderItem.Property(p => p.BookId).HasColumnName("BookId");
                 orderItem.Property(p => p.Quantity).HasColumnName("Quantity");
+
+                orderItem.Property(p => p.BookTitleAtThatTime).HasColumnName("BookTitleAtThatTime");
+                orderItem.Property(p => p.BookAuthorAtThatTime).HasColumnName("BookAuthorAtThatTime");
+                orderItem.Property(p => p.BookCategoryIdAtThatTime).HasColumnName("BookCategoryIdAtThatTime");
+                orderItem.Property(p => p.BookDescriptionAtThatTime).HasColumnName("BookDescriptionAtThatTime");
+                orderItem.Property(p => p.BookPriceAtThatTime).HasColumnName("BookPriceAtThatTime");
+                orderItem.Property(p => p.BookDiscountAtThatTime).HasColumnName("BookDiscountAtThatTime");
+                orderItem.Property(p => p.BookPublicationDateAtThatTime).HasColumnName("BookPublicationDateAtThatTime");
+                orderItem.Property(p => p.BookCoverImagePathAtThatTime).HasColumnName("BookCoverImagePathAtThatTime");
+
+
             });
             modelBuilder.Entity<OrderItem>(orderItem =>
             {

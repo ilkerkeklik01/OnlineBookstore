@@ -26,6 +26,18 @@ namespace Application.Features.Books.Profiles
             CreateMap<UpdateBookCommand, Book>();
             CreateMap<Book, UpdatedBookDto>();
 
+            CreateMap<Book, OrderItem>()
+                .ForMember(x => x.Id, opt => opt.Ignore())//WARNING ID MAPPING IGNORED
+                .ForMember(x => x.BookTitleAtThatTime, opt => opt.MapFrom(x => x.Title))
+                .ForMember(x => x.BookAuthorAtThatTime, opt => opt.MapFrom(x => x.Author))
+                .ForMember(x => x.BookCategoryIdAtThatTime, opt => opt.MapFrom(x => x.CategoryId))
+                .ForMember(x => x.BookDescriptionAtThatTime, opt => opt.MapFrom(x => x.Description))
+                .ForMember(x => x.BookPriceAtThatTime, opt => opt.MapFrom(x => x.Price))
+                .ForMember(x => x.BookDiscountAtThatTime, opt => opt.MapFrom(x => x.Discount))
+                .ForMember(x => x.BookPublicationDateAtThatTime, opt => opt.MapFrom(x => x.PublicationDate))
+                .ForMember(x => x.BookCoverImagePathAtThatTime, opt => opt.MapFrom(x => x.CoverImagePath));
+
+
         }
 
     }

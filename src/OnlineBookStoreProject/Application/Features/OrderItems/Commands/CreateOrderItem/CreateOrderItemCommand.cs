@@ -48,6 +48,10 @@ namespace Application.Features.OrderItems.Commands.CreateOrderItem
                 mappedOrderItem.Book = await _bookRepository.GetAsync(b => b.Id == mappedOrderItem.BookId);
                 mappedOrderItem.User = await _userRepository.GetAsync(u => u.Id == mappedOrderItem.UserId);
 
+                //mappedOrderItem = _mapper.Map<OrderItem>(mappedOrderItem.Book);//*****
+                _mapper.Map(mappedOrderItem.Book, mappedOrderItem);//******* WARNING
+
+
                 OrderItem createdOrderItem = await _orderRepository.AddAsync(mappedOrderItem);
                 CreatedOrderItemDto createdOrderItemDto = _mapper.Map<CreatedOrderItemDto>(createdOrderItem);
                 return createdOrderItemDto;

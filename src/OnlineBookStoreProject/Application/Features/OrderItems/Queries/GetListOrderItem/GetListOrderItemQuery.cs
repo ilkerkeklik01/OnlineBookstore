@@ -36,6 +36,7 @@ namespace Application.Features.OrderItems.Queries.GetListOrderItem
                 IPaginate<OrderItem> orderItems = await _repository.GetListAsync(index:request.PageRequest.Page,
                     size:request.PageRequest.PageSize,include:x=>x.Include(c=>c.Book)
                         .Include(x=>x.User));
+
                 OrderItemListModel orderItemListModel = _mapper.Map<OrderItemListModel>(orderItems);
 
                 return orderItemListModel;

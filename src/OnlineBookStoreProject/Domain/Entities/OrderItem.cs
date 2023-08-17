@@ -18,6 +18,18 @@ namespace Domain.Entities
         public Order? Order { get; set; }
         public User? User { get; set; }
 
+
+        //AT THAT TIME BOOK INFORMATIONS
+        public string BookTitleAtThatTime { get; set; }
+        public string BookAuthorAtThatTime { get; set; }
+        public int BookCategoryIdAtThatTime { get; set; }
+        public string? BookDescriptionAtThatTime { get; set; }
+        public decimal BookPriceAtThatTime { get; set; }
+        public decimal BookDiscountAtThatTime { get; set; }
+        public DateTime BookPublicationDateAtThatTime { get; set; }
+        public string? BookCoverImagePathAtThatTime { get; set; }
+
+
         public OrderItem()
         {
 

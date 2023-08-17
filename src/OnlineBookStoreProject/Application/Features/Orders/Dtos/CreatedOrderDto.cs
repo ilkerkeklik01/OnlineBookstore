@@ -18,5 +18,11 @@ namespace Application.Features.Orders.Dtos
         public List<OrderItemForOrderDto> OrderItems { get; set; }
         //OrderItem ı orderItemForOrderDto ya maplemeliyim
 
+
+
+
+
+
+
     }
 }

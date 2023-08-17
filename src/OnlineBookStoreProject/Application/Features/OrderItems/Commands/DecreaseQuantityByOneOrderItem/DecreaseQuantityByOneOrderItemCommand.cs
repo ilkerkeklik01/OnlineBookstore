@@ -57,6 +57,11 @@ namespace Application.Features.OrderItems.Commands.DecreaseQuantityByOneOrderIte
                 orderItem.Book = await _bookRepository.GetAsync(x => x.Id == orderItem.BookId);
                 orderItem.User = await _userRepository.GetAsync(x => x.Id == orderItem.UserId);
 
+                //orderItem = _mapper.Map<OrderItem>(orderItem.Book);//*****
+                _mapper.Map(orderItem.Book, orderItem);//*******
+
+
+
                 OrderItem updatedOrderItem = await _orderItemRepository.UpdateAsync(orderItem);
                 OrderItemDto orderItemDto = _mapper.Map<OrderItemDto>(updatedOrderItem);
 
