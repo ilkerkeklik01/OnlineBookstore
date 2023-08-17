@@ -28,10 +28,9 @@ namespace WebAPI.Controllers
             return Ok(orderListModel);
         }
 
-        [HttpGet("getlistbyuserid{id}")]
-        public async Task<IActionResult> GetListByUserId([FromRoute]int id,[FromQuery] GetListOrderByUserIdQuery query)
+        [HttpGet("getlistbyuserid")]
+        public async Task<IActionResult> GetListByUserId([FromQuery] GetListOrderByUserIdQuery query)
         {
-            query.UserId = id;
             OrderListModel orderListModel = await Mediator.Send(query);
             return Ok(orderListModel);
         }

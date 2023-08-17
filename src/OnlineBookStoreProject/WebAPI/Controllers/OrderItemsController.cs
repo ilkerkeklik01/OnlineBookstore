@@ -4,7 +4,8 @@ using Application.Features.OrderItems.Commands.IncreaseQuantityByOneOrderItem;
 using Application.Features.OrderItems.Dtos;
 using Application.Features.OrderItems.Models;
 using Application.Features.OrderItems.Queries.GetListOrderItem;
-using Application.Features.OrderItems.Queries.GetListOrderItemAddedButNotPurchasedByUserId;
+using Application.Features.OrderItems.Queries.GetListOrderItemAddedRemovedButNotPurchasedByUserId;
+using Application.Features.OrderItems.Queries.GetListOrderItemAddedRemovedButNotPurchasedByUserId;
 using Application.Features.OrderItems.Queries.GetListOrderItemAllAddedToBasketBefore;
 using Application.Features.OrderItems.Queries.GetListOrderItemInTheBasketByUserId;
 using Application.Features.OrderItems.Queries.GetListOrderItemPurchasedByUserId;
@@ -52,33 +53,29 @@ namespace WebAPI.Controllers
             return Ok(orderItemDto);
         }
 
-        [HttpGet("getlistbasket{id}")]
-        public async Task<IActionResult> GetListBasket([FromRoute]int id,[FromQuery] GetListOrderItemInTheBasketByUserIdQuery query)
+        [HttpGet("getlistbasket")]
+        public async Task<IActionResult> GetListBasket([FromQuery] GetListOrderItemInTheBasketByUserIdQuery query)
         {
-            query.UserId = id;
             OrderItemListModel orderItemListModel = await Mediator.Send(query);
             return Ok(orderItemListModel);
         }
 
-        [HttpGet("getlistpurchased{id}")]
-        public async Task<IActionResult> GetListPurchased([FromRoute] int id, [FromQuery] GetListOrderItemPurchasedByUserIdQuery query)
+        [HttpGet("getlistpurchased")]
+        public async Task<IActionResult> GetListPurchased( [FromQuery] GetListOrderItemPurchasedByUserIdQuery query)
         {
-            query.UserId = id;
             OrderItemListModel orderItemListModel = await Mediator.Send(query);
             return Ok(orderItemListModel);
         }
 
-        [HttpGet("getlistaddednotpurchased{id}")]
-        public async Task<IActionResult> GetListAddedNotPurchased([FromRoute] int id, [FromQuery] GetListOrderItemAddedButNotPurchasedByUserIdQuery query)
+        [HttpGet("getlistaddedremovednotpurchased")]
+        public async Task<IActionResult> GetListAddedNotPurchased([FromQuery] GetListOrderItemAddedRemovedButNotPurchasedByUserIdQuery query)
         {
-            query.UserId = id;
             OrderItemListModel orderItemListModel = await Mediator.Send(query);
             return Ok(orderItemListModel);
         }
-        [HttpGet("getlistalladdedtobasketbefore{id}")]
-        public async Task<IActionResult> GetListOrderItemAllAddedToBasketBefore([FromRoute] int id, [FromQuery] GetListOrderItemAllAddedToBasketBeforeQuery query)
+        [HttpGet("getlistalladdedtobasketbefore")]
+        public async Task<IActionResult> GetListOrderItemAllAddedToBasketBefore( [FromQuery] GetListOrderItemAllAddedToBasketBeforeQuery query)
         {
-            query.UserId = id;
             OrderItemListModel orderItemListModel = await Mediator.Send(query);
             return Ok(orderItemListModel);
         }

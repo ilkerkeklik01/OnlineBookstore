@@ -12,24 +12,24 @@ using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Features.OrderItems.Queries.GetListOrderItemAddedButNotPurchasedByUserId
+namespace Application.Features.OrderItems.Queries.GetListOrderItemAddedRemovedButNotPurchasedByUserId
 {
-    public class GetListOrderItemAddedButNotPurchasedByUserIdQuery : IRequest<OrderItemListModel>
+    public class GetListOrderItemAddedRemovedButNotPurchasedByUserIdQuery : IRequest<OrderItemListModel>
     {
         public int UserId { get; set; }
         public PageRequest PageRequest { get; set; }
 
-        public class GetListOrderItemAddedButNotPurchasedByUserIdQueryHandler : IRequestHandler<GetListOrderItemAddedButNotPurchasedByUserIdQuery,OrderItemListModel>
+        public class GetListOrderItemAddedRemovedButNotPurchasedByUserIdQueryHandler : IRequestHandler<GetListOrderItemAddedRemovedButNotPurchasedByUserIdQuery, OrderItemListModel>
         {
             private readonly IOrderItemRepository _orderItemRepository;
             private readonly IMapper _mapper;
 
-            public GetListOrderItemAddedButNotPurchasedByUserIdQueryHandler(IOrderItemRepository orderItemRepository, IMapper mapper)
+            public GetListOrderItemAddedRemovedButNotPurchasedByUserIdQueryHandler(IOrderItemRepository orderItemRepository, IMapper mapper)
             {
                 _orderItemRepository = orderItemRepository;
                 _mapper = mapper;
             }
-            public async Task<OrderItemListModel> Handle(GetListOrderItemAddedButNotPurchasedByUserIdQuery request, CancellationToken cancellationToken)
+            public async Task<OrderItemListModel> Handle(GetListOrderItemAddedRemovedButNotPurchasedByUserIdQuery request, CancellationToken cancellationToken)
             {
                 IPaginate<OrderItem> orderItems = await _orderItemRepository.GetListAsync(index: request.PageRequest.Page,
                     size: request.PageRequest.PageSize, include: x => x//.Include(c => c.Book)
