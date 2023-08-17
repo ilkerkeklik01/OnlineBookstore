@@ -34,7 +34,7 @@ namespace Application.Features.OrderItems.Queries.GetListOrderItem
             public async Task<OrderItemListModel> Handle(GetListOrderItemQuery request, CancellationToken cancellationToken)
             {
                 IPaginate<OrderItem> orderItems = await _repository.GetListAsync(index:request.PageRequest.Page,
-                    size:request.PageRequest.PageSize,include:x=>x.Include(c=>c.Book)
+                    size:request.PageRequest.PageSize,include:x=>x//.Include(c=>c.Book)
                         .Include(x=>x.User));
 
                 OrderItemListModel orderItemListModel = _mapper.Map<OrderItemListModel>(orderItems);
