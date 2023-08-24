@@ -1,0 +1,169 @@
+@{
+    Layout = null; // Sayfanýn kendi içeriðini kullanacaðýný belirtiyoruz
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Material Design for Bootstrap</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="/mdb-favicon.ico" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" href="/css/shopping_cart.css" />
+</head>
+
+<body>
+    <!-- Start your project here -->
+    <style>
+        /* ... (Stil tanýmlamalarý) ... */
+    </style>
+    <section class="h-100 h-custom" style="background-color: #eee;">
+        <div class="container h-100 py-5">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                    <div class="card shopping-cart" style="border-radius: 15px;">
+                        <div class="card-body text-black">
+                            <div class="row">
+                                <div class="col-lg-6 px-5 py-4">
+                                    <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Your products</h3>
+                                    <div id="product-list">
+                                        <!-- Ürün listesi burada dinamik olarak oluþturulacak -->
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 px-5 py-4">
+                                    <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Payment</h3>
+                                    <form class="mb-5">
+                                        <!-- Ödeme formu burada oluþturulacak -->
+                                    </form>
+                                    <div class="d-flex justify-content-between px-x">
+                                        <p class="fw-bold">Discount:</p>
+                                        <p class="fw-bold" id="discount-value">95$</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between p-2 mb-2"
+                                         style="background-color: #e1f5fe;">
+                                        <h5 class="fw-bold mb-0">Total:</h5>
+                                        <h5 class="fw-bold mb-0" id="total-price">2261$</h5>
+                                    </div>
+                                    <button onclick="makePayment()" class="btn btn-primary">Pay</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End your project here -->
+    <!-- MDB -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <!-- Custom scripts -->
+<script>
+        async function fetchBooks() {
+            const userId = sessionStorage.getItem('userId');
+            const response = await fetch(`http://localhost:5093/api/OrderItems/getlistbasket?userId=${userId}&PageRequest.Page=0&PageRequest.PageSize=10`);
+            const data = await response.json();
+
+            const productList = document.getElementById('product-list');
+            productList.innerHTML = '';
+
+            data.items.forEach(item => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'd-flex align-items-center mb-5';
+                productDiv.innerHTML = `
+                                    <div class="flex-shrink-0">
+                                        <img src="${item.bookCoverImagePathAtThatTime}" class="img-fluid" style="width: 150px;" alt="Book Cover">
+                                    </div>
+                                    <div class="flex-grow-1 ms-3">
+                                        <a href="#!" class="float-end text-black"><i class="fas fa-times"></i></a>
+                                        <h5 class="text-primary">${item.bookTitleAtThatTime}</h5>
+                                        <h6 style="color: #9e9e9e;">Author: ${item.bookAuthorAtThatTime}</h6>
+                                        <div class="d-flex align-items-center">
+                                            <p class="fw-bold mb-0 me-3">${item.bookPriceAtThatTime}$</p>
+                                                            <div class="def-number-input number-input safari_only">
+                            <button onclick="decreaseQuantity(${item.id})" class="minus">-</button>
+                            <input class="quantity fw-bold text-black" min="0" name="quantity" value="${item.quantity}" type="number" readonly>
+                            <button onclick="increaseQuantity(${item.id})" class="plus">+</button>
+                        </div>
+                                        </div>
+                                        <p class="fw-bold text-danger mb-0">Discount: ${item.bookDiscountAtThatTime}$</p>
+                                    </div>
+                                            
+                                `;
+                productList.appendChild(productDiv);
+            });
+
+            // Update discount and total price
+            const discountValue = document.getElementById('discount-value');
+            const totalDiscount = data.items.reduce((total, item) => total + (item.bookDiscountAtThatTime * item.quantity), 0);
+            discountValue.textContent = `${totalDiscount}$`;
+
+            const totalPrice = document.getElementById('total-price');
+            const totalBookPrice = data.items.reduce((total, item) => total + (item.bookPriceAtThatTime * item.quantity), 0);
+            totalPrice.textContent = `${totalBookPrice - totalDiscount}$`;
+        }
+
+        fetchBooks();
+    </script>
+    <script>
+        async function increaseQuantity(itemId) {
+            const response = await fetch(`http://localhost:5093/api/OrderItems/increase=${itemId}`, {
+                method: 'POST', // veya 'PUT' isteðinize uygun method seçeneðini kullanabilirsiniz
+            });
+
+           
+
+            if (response.ok) {
+                fetchBooks(); // Kitaplarý yeniden çekerek sayfayý güncelleyin
+            } else {
+                var str = await response.json();
+                console.log(str);
+            }
+        }
+
+        async function decreaseQuantity(itemId) {
+            const response = await fetch(`http://localhost:5093/api/OrderItems/decrease=${itemId}`, {
+                method: 'POST', // veya 'PUT' isteðinize uygun method seçeneðini kullanabilirsiniz
+            });
+
+            if (response.ok) {
+                fetchBooks(); // Kitaplarý yeniden çekerek sayfayý güncelleyin
+            } else {
+                var str = await response.json();
+                console.log(str);
+            }
+        }
+        async function makePayment() {
+            const userId = sessionStorage.getItem('userId');
+            const response = await fetch('http://localhost:5093/api/Orders/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: userId
+                })
+            });
+
+            if (response.ok) {
+                // Ödeme iþlemi baþarýlý oldu, sayfayý güncelleyelim
+                fetchBooks();
+            } else {
+                var str = await response.json();
+                console.log(str);
+            }
+        }
+        
+    </script>
+</body>
+
+</html>

@@ -2,6 +2,7 @@
 
 
 using Application;
+using Core.CrossCuttingConcerns.Exceptions;
 using Persistence;
 namespace WebAPI
 {
@@ -14,16 +15,27 @@ namespace WebAPI
             // Add services to the container.
 
             builder.Services.AddControllers();
-            builder.Services.AddPersistenceServices(builder.Configuration);
             builder.Services.AddApplicationServices();
-            
-            
+            builder.Services.AddPersistenceServices(builder.Configuration);
+
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            var app = builder.Build();
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
 
+
+            var app = builder.Build();
+            app.UseCors();
             // Configure the HTTP request pipeline.
 
             if (app.Environment.IsDevelopment())
@@ -31,7 +43,7 @@ namespace WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            
 
 
             //if (app.Environment.IsDevelopment())
@@ -56,7 +68,14 @@ namespace WebAPI
             
 
 
-
+            //if(app.Environment.IsDevelopment()) 
+            app.UseDeveloperExceptionPage();
+            app.ConfigureCustomExceptionMiddleware();
+            
+            //app.UseCors(builder =>
+            //    builder.WithOrigins("http://localhost:5093").AllowAnyHeader()
+            //);
+            //app.UseExceptionHandler(); EF 
 
             app.UseAuthorization();
 

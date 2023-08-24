@@ -5,8 +5,6 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CFFB1EB9-6447-4C20-8400-27D7E2B04508}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1362EA01-9B01-4E17-A8FB-E42730A2AAB1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "corePackages", "corePackages", "{01B7F227-CE8F-41FD-9AF8-6AF5E5259161}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Application", "src\corePackages\Core.Application\Core.Application.csproj", "{CD9A8AA1-5CAB-4218-91C5-2550BB86354A}"
@@ -32,6 +30,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "src\OnlineBookStoreProject\WebAPI\WebAPI.csproj", "{0144A8BD-A1E4-4AF2-8B86-14E2514C6420}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\OnlineBookStoreProject\Application\Application.csproj", "{433C6368-35E7-4575-A374-2B68D38C11B4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZWebUI", "src\OnlineBookStoreProject\ZWebUI\ZWebUI.csproj", "{7B042CDB-1DD6-449B-ACE2-CE4666497866}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{F2F768FB-660B-411A-A773-4D9A155E0F66}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineBookstoreProject.Tests", "src\OnlineBookStoreProject\tests\OnlineBookstoreProject.Tests\OnlineBookstoreProject.Tests.csproj", "{868E7A2B-78C9-4BF1-ABA1-EB957FDBED26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +87,14 @@ Global
 		{433C6368-35E7-4575-A374-2B68D38C11B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{433C6368-35E7-4575-A374-2B68D38C11B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{433C6368-35E7-4575-A374-2B68D38C11B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B042CDB-1DD6-449B-ACE2-CE4666497866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B042CDB-1DD6-449B-ACE2-CE4666497866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B042CDB-1DD6-449B-ACE2-CE4666497866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B042CDB-1DD6-449B-ACE2-CE4666497866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{868E7A2B-78C9-4BF1-ABA1-EB957FDBED26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{868E7A2B-78C9-4BF1-ABA1-EB957FDBED26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{868E7A2B-78C9-4BF1-ABA1-EB957FDBED26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{868E7A2B-78C9-4BF1-ABA1-EB957FDBED26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +113,9 @@ Global
 		{4AAD2785-7975-4709-8933-2895D212798B} = {2CCCF41C-26B8-4348-856F-CE70CAC1E009}
 		{0144A8BD-A1E4-4AF2-8B86-14E2514C6420} = {2CCCF41C-26B8-4348-856F-CE70CAC1E009}
 		{433C6368-35E7-4575-A374-2B68D38C11B4} = {2CCCF41C-26B8-4348-856F-CE70CAC1E009}
+		{7B042CDB-1DD6-449B-ACE2-CE4666497866} = {2CCCF41C-26B8-4348-856F-CE70CAC1E009}
+		{F2F768FB-660B-411A-A773-4D9A155E0F66} = {2CCCF41C-26B8-4348-856F-CE70CAC1E009}
+		{868E7A2B-78C9-4BF1-ABA1-EB957FDBED26} = {F2F768FB-660B-411A-A773-4D9A155E0F66}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C127633B-AB1B-43AE-A516-DCF06F13F757}

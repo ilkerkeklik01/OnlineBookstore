@@ -104,6 +104,7 @@ namespace Application.Features.Books.Commands.UpdateBook
             private async Task UpdateOrderItemsWhichAreInTheBasketOfAnyUser(Book updatedBook)
             {
                 IPaginate<OrderItem> paginate =  await _orderItemRepository.GetListAsync(x=>x.IsInTheBasket==true&&x.BookId==updatedBook.Id);
+                
                 List<OrderItem> orderItems = paginate.Items.ToList<OrderItem>();
 
                 //These order items will be updated

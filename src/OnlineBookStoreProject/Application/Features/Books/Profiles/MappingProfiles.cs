@@ -13,7 +13,7 @@ using Application.Features.Books.Commands.UpdateBook;
 
 namespace Application.Features.Books.Profiles
 {
-    public class MappingProfiles: Profile
+    public class MappingProfiles: Profile,IMappingProfile
     {
 
         public MappingProfiles() {

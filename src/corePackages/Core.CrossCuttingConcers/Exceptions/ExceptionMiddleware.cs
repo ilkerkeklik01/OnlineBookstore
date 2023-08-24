@@ -55,7 +55,7 @@ public class ExceptionMiddleware
     {
         context.Response.StatusCode = Convert.ToInt32(HttpStatusCode.BadRequest);
 
-        return context.Response.WriteAsync(new BusinessProblemDetails
+        var res = context.Response.WriteAsync(new BusinessProblemDetails
         {
             Status = StatusCodes.Status400BadRequest,
             Type = "https://example.com/probs/business",
@@ -63,6 +63,8 @@ public class ExceptionMiddleware
             Detail = exception.Message,
             Instance = ""
         }.ToString());
+
+        return res;
     }
 
     private Task CreateValidationException(HttpContext context, Exception exception)

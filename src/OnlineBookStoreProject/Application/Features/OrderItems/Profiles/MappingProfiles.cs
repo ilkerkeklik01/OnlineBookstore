@@ -12,7 +12,7 @@ using Domain.Entities;
 
 namespace Application.Features.OrderItems.Profiles
 {
-    public class MappingProfiles : Profile
+    public class MappingProfiles : Profile, IMappingProfile
     {
         public MappingProfiles()
         {

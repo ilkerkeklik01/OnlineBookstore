@@ -7,7 +7,7 @@ using Domain.Entities;
 
 namespace Application.Features.Bookshelves.Profiles;
 
-public class MappingProfiles:Profile
+public class MappingProfiles:Profile,IMappingProfile
 {
 
     public MappingProfiles()

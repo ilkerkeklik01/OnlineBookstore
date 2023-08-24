@@ -1,0 +1,64 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Your head content here -->
+</head>
+<body>
+<div class="login-content">
+    <!-- login.cshtml içeriði burada olacak -->
+        
+    <h1>Login</h1>
+    <form id="login-form">
+        <label for="user-id">User ID:</label>
+        <input type="text" id="user-id" name="user-id" required><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        <button type="submit">Login</button>
+        <link href="/css/login.css" rel="stylesheet" />
+
+    </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loginForm = document.getElementById('login-form');
+            loginForm.addEventListener('submit', function (event) {
+                event.preventDefault(); // Prevent form submissionS
+
+                const userId = document.getElementById('user-id').value;
+                const password = document.getElementById('password').value;
+
+                // Example API call (replace with your actual API endpoint)
+                  fetch('http://localhost:5093/api/Users/getlist?PageRequest.Page=0&PageRequest.PageSize=10')
+                    .then(response => response.json())
+                    .then(data => {
+                        const user = data.items.find(item => item.id.toString() === userId);
+
+                        if (user) {
+                            if (user.password === password) {
+
+                                sessionStorage.setItem('userId',userId);
+
+
+                                // Successful login, redirect to home page
+                                window.location.href = '/Home/Index';
+                            } else {
+                                alert('Incorrect password. Please check your credentials.');
+                            }
+                        } else {
+                            alert('User not found. Please check your credentials.');
+                        }
+                    })
+                    .catch(error => {
+                            var str = await response.json();
+                        console.log(str);
+                        alert('An error occurred while logging in. Please try again later.');
+                    });
+            });
+        });
+    </script>
+</div>
+@RenderBody(); 
+</body>
+</html>
