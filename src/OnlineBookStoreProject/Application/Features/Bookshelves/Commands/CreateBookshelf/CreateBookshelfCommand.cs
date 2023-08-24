@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Features.Bookshelves.Dtos;
+using Application.Features.Bookshelves.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -23,15 +24,19 @@ namespace Application.Features.Bookshelves.Commands.CreateBookshelf
             private readonly IBookshelfRepository _bookshelfRepository;
             private readonly IMapper _mapper;
             private readonly IUserRepository _userRepository;
-            public CreateBookshelfCommandHandler(IBookshelfRepository repository, IMapper mapper,IUserRepository userRepository)
+            private readonly BookshelfBusinessRules _bookshelfBusinessRules;
+            public CreateBookshelfCommandHandler(IBookshelfRepository repository, IMapper mapper,IUserRepository userRepository, BookshelfBusinessRules bookshelfBusinessRules)
             {
                 _bookshelfRepository = repository;
                 _mapper = mapper;
                 _userRepository = userRepository;
+                _bookshelfBusinessRules = bookshelfBusinessRules;
             }
 
             public async Task<CreatedBookshelfDto> Handle(CreateBookshelfCommand request, CancellationToken cancellationToken)
             {
+                await _bookshelfBusinessRules.UserNullCheck(request.UserId);
+                
                 Bookshelf mappedBookshelf = _mapper.Map<Bookshelf>(request);
 
                 mappedBookshelf.User = await _userRepository.GetAsync(u=>u.Id==mappedBookshelf.UserId);

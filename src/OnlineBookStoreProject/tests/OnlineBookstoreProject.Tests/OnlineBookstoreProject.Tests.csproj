@@ -33,7 +33,6 @@
     <Folder Include="Controllers.Tests\Order\" />
     <Folder Include="Controllers.Tests\Review\" />
     <Folder Include="Controllers.Tests\User\" />
-    <Folder Include="Handlers.Tests\Bookshelf\" />
     <Folder Include="Handlers.Tests\Category\" />
     <Folder Include="Handlers.Tests\Review\" />
     <Folder Include="Handlers.Tests\User\" />

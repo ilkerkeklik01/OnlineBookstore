@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Application;
 using AutoFixture;
 using AutoFixture.AutoMoq;
+using Domain.Entities;
 
 namespace OnlineBookstoreProject.Tests
 {
@@ -14,8 +15,8 @@ namespace OnlineBookstoreProject.Tests
     {
 
         public static readonly IFixture Fixture = GetFixture();
-
-        public static IMapper GetDefaultMapper()
+        public static readonly IMapper Mapper = GetDefaultMapper();
+        private static IMapper GetDefaultMapper()
         {
             //var profileTypes = AppDomain.CurrentDomain.GetAssemblies()
             //    .SelectMany(a => a.GetTypes().Where(type => typeof(Profile).IsAssignableFrom(type)));
@@ -45,11 +46,11 @@ namespace OnlineBookstoreProject.Tests
             // Create a mapper based on the configuration
             return config.CreateMapper();
         }
-        public static IFixture GetFixture()
+        private  static IFixture GetFixture()
         {
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
 
-            fixture.Customize<Domain.Entities.Book>(c =>
+            fixture.Customize<Book>(c =>
                 c.With(b => b.Id, fixture.Create<int>() + 1)
                     .With(b => b.Title, fixture.Create<string>())
                     .With(b => b.Author, fixture.Create<string>())
@@ -61,6 +62,16 @@ namespace OnlineBookstoreProject.Tests
                     .With(b => b.PublicationDate, DateTime.Today)
                     .With(b => b.CoverImagePath, fixture.Create<string>())
             );
+            fixture.Customize<Bookshelf>(x => 
+                x.With(b=>b.Id,fixture.Create<int>()+1)
+                    .With(b=>b.Name,fixture.Create<string>())
+                    .With(b=>b.UserId,fixture.Create<int>()+1)
+            );
+
+
+
+
+
 
             fixture.Behaviors.OfType<ThrowingRecursionBehavior>().ToList()
                 .ForEach(b => fixture.Behaviors.Remove(b));

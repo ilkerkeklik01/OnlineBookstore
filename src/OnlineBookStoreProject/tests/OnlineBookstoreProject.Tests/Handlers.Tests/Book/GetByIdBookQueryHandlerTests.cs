@@ -29,7 +29,7 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.Book
         {
             _fixture = TestHelper.Fixture;
             _bookRepositoryMock = new Mock<IBookRepository>();
-            _mapper = TestHelper.GetDefaultMapper();
+            _mapper = TestHelper.Mapper;
             _rules = new BookBusinessRules(_bookRepositoryMock.Object);
             _sut = new GetByIdBookQuery.GetByIdBookQueryHandler(_bookRepositoryMock.Object,
                 _mapper,

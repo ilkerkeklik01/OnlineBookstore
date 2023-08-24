@@ -16,7 +16,6 @@
   <ItemGroup>
     <Folder Include="Features\Bookshelves\Constants\" />
     <Folder Include="Features\Bookshelves\Profiles\" />
-    <Folder Include="Features\Bookshelves\Rules\" />
     <Folder Include="Features\Books\Constants\" />
     <Folder Include="Features\Categories\Constants\" />
     <Folder Include="Features\Categories\Rules\" />

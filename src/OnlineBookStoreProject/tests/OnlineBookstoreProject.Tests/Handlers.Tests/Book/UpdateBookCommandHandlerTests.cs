@@ -33,7 +33,7 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.Book
         {
             _bookRepositoryMock = new Mock<IBookRepository>();
             _orderItemRepositoryMock= new Mock<IOrderItemRepository>();
-            _mapper = TestHelper.GetDefaultMapper();
+            _mapper = TestHelper.Mapper;
             _rules = new BookBusinessRules(_bookRepositoryMock.Object); 
             _sut = new UpdateBookCommand.UpdateBookCommandHandler(
                 _bookRepositoryMock.Object,

@@ -21,7 +21,7 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.Book
         public CreateBookCommandHandlerTests()
         {
             _bookRepositoryMock = new Mock<IBookRepository>();
-            _mapper = TestHelper.GetDefaultMapper();
+            _mapper = TestHelper.Mapper;
             _sut = new CreateBookCommand.CreateBookCommandHandler(
                 _bookRepositoryMock.Object,
                 _mapper,
