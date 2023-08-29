@@ -40,22 +40,24 @@ namespace Application.Features.OrderItems.Commands.DecreaseQuantityByOneOrderIte
             //Quantitysi 0 olursa olmaz 1 olursa da 0 yapıp is in the basket i false yapmalıyım.
             public async Task<OrderItemDto> Handle(DecreaseQuantityByOneOrderItemCommand request, CancellationToken cancellationToken)
             {
-                OrderItem orderItem = await _businessRules.QuantityOfOrderItemCannotBeLessThanZeroAndNullCheckFirst(request.Id);
+                var asd = _orderItemRepository.GetAsync(x => x.Id == request.Id);
 
+                OrderItem orderItem = await _businessRules.QuantityOfOrderItemCannotBeLessThanZeroAndNullCheckFirst(request.Id);//
+                await _businessRules.CannotDecreaseTheQuantityOfOrderItemNotInTheBasket(orderItem.IsInTheBasket);
 
                 bool basketCheck;
 
                 orderItem.Quantity--;
 
                 basketCheck= orderItem.Quantity == 0;
-                if (basketCheck)
+                if (basketCheck)//
                 {
                     orderItem.IsInTheBasket = false;
                 }
 
                 //While creating order items I Already initialize the books and users. but maybe they changed..
-                orderItem.Book = await _bookRepository.GetAsync(x => x.Id == orderItem.BookId);
-                orderItem.User = await _userRepository.GetAsync(x => x.Id == orderItem.UserId);
+                orderItem.Book = await _bookRepository.GetAsync(x => x.Id == orderItem.BookId);//
+                orderItem.User = await _userRepository.GetAsync(x => x.Id == orderItem.UserId);//
 
                 //orderItem = _mapper.Map<OrderItem>(orderItem.Book);//*****
                 _mapper.Map(orderItem.Book, orderItem);//*******

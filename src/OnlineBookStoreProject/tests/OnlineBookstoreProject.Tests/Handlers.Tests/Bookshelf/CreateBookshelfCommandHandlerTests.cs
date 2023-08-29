@@ -11,6 +11,7 @@ using Application.Features.Bookshelves.Rules;
 using Application.Services.Repositories;
 using AutoFixture;
 using AutoMapper;
+using Core.CrossCuttingConcerns.Exceptions;
 using Domain.Entities;
 using Moq;
 
@@ -37,7 +38,6 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.Bookshelf
                 _mapper,
                 _userRepositoryMock.Object,
                 _bookshelfBusinessRules
-                
                 );
         }
 
@@ -72,24 +72,38 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.Bookshelf
             _bookshelfRepositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Domain.Entities.Bookshelf>()))
                 .ReturnsAsync(createdBookshelf);
             var expectedDto = _mapper.Map<CreatedBookshelfDto>(createdBookshelf);
+            
             //Act
-
             var result = await _sut.Handle(request, CancellationToken.None);
-
-
+            
             //Assert
             Assert.NotNull(result);
             Assert.IsType<CreatedBookshelfDto>(result);
             Assert.Equal(expectedDto,result);
             Assert.Equal(createdBookshelf.User.Username,result.UserName);
-
         }
 
-        
 
+        [Fact]
+        public async Task Handle_UserIsNotExist_ThrowsBusinessException()
+        {
+            //Arrange
+            var request = _fixture.Build<CreateBookshelfCommand>()
+                .With(x => x.Name, _fixture.Create<string>())
+                .With(x => x.UserId, _fixture.Create<int>() + 1)
+                .Create();
 
+            User? user = null;
 
+            _userRepositoryMock.Setup(repo => repo.GetAsync(It.IsAny<Expression<Func<User, bool>>>()))
+                .ReturnsAsync(user);
+            var expectedMessage = "User is not exist!";
+            // Act & Assert
 
+            var exception = await Assert.ThrowsAsync<BusinessException>(async () => await _sut.Handle(request, CancellationToken.None));
+            Assert.Equal(expectedMessage, exception.Message);
+
+        }
 
     }
 }

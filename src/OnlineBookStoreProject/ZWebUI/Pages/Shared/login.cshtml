@@ -33,13 +33,14 @@
                   fetch('http://localhost:5093/api/Users/getlist?PageRequest.Page=0&PageRequest.PageSize=10')
                     .then(response => response.json())
                     .then(data => {
+                        console.log(data);
                         const user = data.items.find(item => item.id.toString() === userId);
-
+                        
+                        
                         if (user) {
                             if (user.password === password) {
 
                                 sessionStorage.setItem('userId',userId);
-
 
                                 // Successful login, redirect to home page
                                 window.location.href = '/Home/Index';
@@ -51,7 +52,7 @@
                         }
                     })
                     .catch(error => {
-                            var str = await response.json();
+                            var str =  response.json();
                         console.log(str);
                         alert('An error occurred while logging in. Please try again later.');
                     });

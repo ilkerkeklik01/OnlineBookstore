@@ -10,6 +10,7 @@ using Application.Features.Books.Rules;
 using Application.Services.Repositories;
 using AutoFixture;
 using AutoMapper;
+using Core.CrossCuttingConcerns.Exceptions;
 using Domain.Entities;
 using Moq;
 
@@ -64,6 +65,32 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.Book
             Assert.IsType<BookDto>(result);
             Assert.NotNull(result);
             Assert.Equal(expectedDto,result);
+        }
+
+        [Fact]
+        public async Task Handle_InvalidRequest_ThrowsBusinessException()
+        {
+
+            //Arrange
+            var request = _fixture.Build<GetByIdBookQuery>()
+                .With(r => r.Id, _fixture.Create<int>() + 1)
+                .Create();
+
+
+
+            Domain.Entities.Book? existingBook = null;
+
+            _bookRepositoryMock.Setup(repo =>
+                    repo.GetAsync(It.IsAny<Expression<Func<Domain.Entities.Book, bool>>>())
+                )
+                .ReturnsAsync(existingBook);
+            string expectedMessage = "Book is not exist (null)";
+            
+            
+            // Act & Assert
+            var exception = await Assert.ThrowsAsync<BusinessException>
+                (async () => await _sut.Handle(request, CancellationToken.None));
+            Assert.Equal(expectedMessage,exception.Message);
         }
 
 

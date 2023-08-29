@@ -185,8 +185,8 @@
                     console.log(data.message); // Log the response from the server
                 })
                 .catch(error => {
-                        var str = await response.json();
-                        console.log(str
+                        var str = response.json();
+                    console.log(str);
                 });
 
             alert(`Added book with ID: ${bookId} to the cart for user with ID: ${userId}`);

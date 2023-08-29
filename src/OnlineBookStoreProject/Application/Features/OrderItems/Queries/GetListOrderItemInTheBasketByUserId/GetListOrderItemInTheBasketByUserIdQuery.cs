@@ -1,9 +1,4 @@
 ﻿using Core.Application.Requests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Application.Features.OrderItems.Models;
 using Application.Services.Repositories;
 using AutoMapper;
@@ -34,10 +29,8 @@ namespace Application.Features.OrderItems.Queries.GetListOrderItemInTheBasketByU
             public async Task<OrderItemListModel> Handle(GetListOrderItemInTheBasketByUserIdQuery request, CancellationToken cancellationToken)
             {
                 IPaginate<OrderItem> orderItems = await _orderItemRepository.GetListAsync(index: request.PageRequest.Page,
-                    size: request.PageRequest.PageSize, include: x => x//.Include(c => c.Book)
-                        .Include(x => x.User),
-                    predicate: x=>x.IsInTheBasket==true&&x.UserId==request.UserId
-                                  );
+                    size: request.PageRequest.PageSize, include: x => x.Include(x => x.User), 
+                    predicate: x=>x.IsInTheBasket==true&&x.UserId==request.UserId);
 
                 OrderItemListModel orderItemListModel = _mapper.Map<OrderItemListModel>(orderItems);
 

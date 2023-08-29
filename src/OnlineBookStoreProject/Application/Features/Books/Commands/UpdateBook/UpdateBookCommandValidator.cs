@@ -3,26 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Entities;
 using FluentValidation;
 
-namespace Application.Features.Books.Commands.CreateBook
+namespace Application.Features.Books.Commands.UpdateBook
 {
-    public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
+    public class UpdateBookCommandValidator:AbstractValidator<UpdateBookCommand>
     {
 
-
-        public CreateBookCommandValidator()
+        public UpdateBookCommandValidator()
         {
-            RuleFor(x=>x.Author).NotNull();
-            RuleFor(x=>x.Author).MinimumLength(3).NotEmpty();
+            RuleFor(x => x.Author).NotNull();
+            RuleFor(x => x.Author).MinimumLength(3).NotEmpty();
             RuleFor(x => x.Title).NotNull();
             RuleFor(x => x.Title).NotEmpty();
             RuleFor(x => x.Price).LessThanOrEqualTo(100);
             RuleFor(x => x.Price).GreaterThanOrEqualTo(1);
         }
-
-
-        
 
     }
 }

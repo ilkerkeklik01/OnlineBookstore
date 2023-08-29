@@ -8,6 +8,7 @@ using Application.Features.Books.Dtos;
 using Application.Features.Books.Profiles;
 using Application.Features.Books.Rules;
 using Application.Services.Repositories;
+using AutoFixture;
 using AutoMapper;
 using Moq;
 
@@ -18,6 +19,7 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.Book
         private readonly Mock<IBookRepository> _bookRepositoryMock;
         private readonly IMapper _mapper;
         private readonly CreateBookCommand.CreateBookCommandHandler _sut;
+        private readonly IFixture _fixture;
         public CreateBookCommandHandlerTests()
         {
             _bookRepositoryMock = new Mock<IBookRepository>();
@@ -27,6 +29,7 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.Book
                 _mapper,
                 new BookBusinessRules(_bookRepositoryMock.Object)
                 );
+            _fixture = TestHelper.Fixture;
         }
 
 
@@ -34,36 +37,16 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.Book
         public async Task Handle_ValidRequest_ReturnsCreatedBookDto()
         {
             // Arrange
-            var request = new CreateBookCommand
-            { 
-                Title = "Book Title",
-                Author = "Book Author",
-                CategoryId = 1,
-                Discount = 10,
-                Price = 50,
-                Description = "Book Description",
-                CoverImagePath = "path/to/book.jpg",
-                PublicationDate = DateTime.Today
-            };
+            var request = _fixture.Build<CreateBookCommand>()
+                .With(x => x.CategoryId, _fixture.Create<int>() + 1)
+                .Create();
+
+            var createdBook = _fixture.Create<Domain.Entities.Book>();
 
             _bookRepositoryMock.Setup(repo => repo.AddAsync(It.IsAny<Domain.Entities.Book>()))
-                .ReturnsAsync((Domain.Entities.Book addedBook) =>
-                {
-                    addedBook.Id = 1;
-                    return addedBook;
-                });
-            var expectedDto = new CreatedBookDto()
-            {
-                Id = 1,
-                Title = "Book Title",
-                Author = "Book Author",
-                CategoryId = 1,
-                Discount = 10,
-                Price = 50,
-                Description = "Book Description",
-                CoverImagePath = "path/to/book.jpg",
-                PublicationDate = DateTime.Today
-            };
+                .ReturnsAsync(createdBook);
+
+            var expectedDto = _mapper.Map<CreatedBookDto>(createdBook);
 
             // Act
             var result = await _sut.Handle(request, CancellationToken.None);
@@ -71,11 +54,7 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.Book
             // Assert
             Assert.NotNull(result);
             Assert.IsType<CreatedBookDto>(result);
-            //Assert.Equal(createdBook.Id,result.Id);
-            Assert.Equal(1,result.Id);
-            Assert.Equal(expectedDto,result);//bu equal metotu neye gore calisiyor referans degil gibi duruyor
-            
-
+            Assert.Equal(expectedDto,result);
         }
 
     }

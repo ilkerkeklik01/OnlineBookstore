@@ -17,7 +17,7 @@ namespace Application.Features.Books.Queries.GetByIdBook
 
         private bool ValidateId(int id)
         {
-            if(id<0) return false;
+            if(id<1) return false;
             return true;
         }
 

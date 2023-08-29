@@ -80,6 +80,15 @@ namespace Application.Features.OrderItems.Rules
 
         }
 
+        public async Task CannotDecreaseTheQuantityOfOrderItemNotInTheBasket(bool isInTheBasket)
+        {
+            if (!isInTheBasket)
+            {
+                throw new BusinessException("Cannot decrease the quantity of order item that is not in the basket!");
+            }
+
+        }
+
 
 
     }

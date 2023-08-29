@@ -67,6 +67,10 @@ namespace OnlineBookstoreProject.Tests
                     .With(b=>b.Name,fixture.Create<string>())
                     .With(b=>b.UserId,fixture.Create<int>()+1)
             );
+            fixture.Customize<OrderItem>(o =>
+                o.With(o => o.Id, fixture.Create<int>() + 1)
+                .With(o => o.BookPublicationDateAtThatTime, DateTime.Today)
+            );
 
 
 

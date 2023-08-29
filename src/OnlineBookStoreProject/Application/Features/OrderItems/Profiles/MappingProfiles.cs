@@ -28,7 +28,8 @@ namespace Application.Features.OrderItems.Profiles
                 .ForMember(x => x.BookPriceAtThatTime, opt => opt.MapFrom(x => x.Price))
                 .ForMember(x => x.BookDiscountAtThatTime, opt => opt.MapFrom(x => x.Discount))
                 .ForMember(x => x.BookPublicationDateAtThatTime, opt => opt.MapFrom(x => x.PublicationDate))
-                .ForMember(x => x.BookCoverImagePathAtThatTime, opt => opt.MapFrom(x => x.CoverImagePath));
+                .ForMember(x => x.BookCoverImagePathAtThatTime, opt => opt.MapFrom(x => x.CoverImagePath))
+                .ReverseMap();
 
 
             CreateMap<OrderItem, CreatedOrderItemDto>().ForMember(x => x.UserName,
@@ -58,7 +59,7 @@ namespace Application.Features.OrderItems.Profiles
             //    opt => opt.MapFrom(x => x.Book.Price)
             //);
             CreateMap<OrderItem, OrderItemDto>().ForMember(x => x.UserName,
-                opt => opt.MapFrom(x => x.User.Username));
+                opt => opt.MapFrom(x => x.User.Username)).ReverseMap();
             //CreateMap<OrderItem,OrderItemDto>().ForMember(c => c.BookTitle,
             //    opt => opt.MapFrom(c => c.Book.Title)).ForMember(x => x.UserName,
             //    opt => opt.MapFrom(x => x.User.Username)

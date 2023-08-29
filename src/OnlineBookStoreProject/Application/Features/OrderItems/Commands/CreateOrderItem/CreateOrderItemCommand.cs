@@ -8,6 +8,7 @@ using Application.Features.OrderItems.Dtos;
 using Application.Features.OrderItems.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
+using Core.CrossCuttingConcerns.Exceptions;
 using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Routing.Tree;
@@ -53,8 +54,10 @@ namespace Application.Features.OrderItems.Commands.CreateOrderItem
 
 
                 OrderItem createdOrderItem = await _orderRepository.AddAsync(mappedOrderItem);
-                CreatedOrderItemDto createdOrderItemDto = _mapper.Map<CreatedOrderItemDto>(createdOrderItem);
+                CreatedOrderItemDto createdOrderItemDto = _mapper.Map<CreatedOrderItemDto>(mappedOrderItem);
+                createdOrderItemDto.Id = createdOrderItem.Id;
                 return createdOrderItemDto;
+
             }
 
 
