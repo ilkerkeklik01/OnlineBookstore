@@ -10,6 +10,7 @@ using Application.Features.OrderItems.Rules;
 using Application.Services.Repositories;
 using AutoFixture;
 using AutoMapper;
+using Core.CrossCuttingConcerns.Exceptions;
 using Core.Persistence.Paging;
 using Domain.Entities;
 using Moq;
@@ -50,9 +51,11 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.OrderItem
                 .Create();
 
             var orderItemsPaginateMock = new Mock<IPaginate<Domain.Entities.OrderItem>>();
-            
+
+            List<Domain.Entities.OrderItem> existingOrderItems = new List<Domain.Entities.OrderItem>();
+
             orderItemsPaginateMock.Setup(p => p.Items)
-                .Returns(new List<Domain.Entities.OrderItem>());
+                .Returns(existingOrderItems);
             
             _orderItemRepositoryMock.Setup(repo =>
                     repo.GetListAsync(It.IsAny<Expression<Func<Domain.Entities.OrderItem, bool>>>(),
@@ -67,7 +70,7 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.OrderItem
             var book = _fixture.Build<Domain.Entities.Book>()
                 .With(x => x.Id, request.BookId)
                 .Create();
-            var user = _fixture.Build<User>()
+            var user = _fixture.Build<Domain.Entities.User>()
                 .With(x => x.Id, request.UserId)
                 .Create();
 
@@ -100,6 +103,37 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.OrderItem
             Assert.Equal(expectedCreatedOrderItemDto,result);
         }
 
+        [Fact]
+        public async Task Handle_InvalidRequestOrderItemExists_ThrowsBussinessException()
+        {
+            //Arrange
+            var request = _fixture.Build<CreateOrderItemCommand>()
+                .With(x => x.BookId, _fixture.Create<int>() + 1)
+                .With(x => x.UserId, _fixture.Create<int>() + 1)
+                .Create();
+
+            var orderItemsPaginateMock = new Mock<IPaginate<Domain.Entities.OrderItem>>();
+
+            List<Domain.Entities.OrderItem> existingOrderItems = _fixture.Build<Domain.Entities.OrderItem>()
+                .With(x => x.Id, _fixture.Create<int>() + 1)
+                .CreateMany(15).ToList();
+
+            orderItemsPaginateMock.Setup(p => p.Items)
+                .Returns(existingOrderItems);
+
+            _orderItemRepositoryMock.Setup(repo =>
+                    repo.GetListAsync(It.IsAny<Expression<Func<Domain.Entities.OrderItem, bool>>>(),
+                        null, null, 0, 10, true, default
+                    ))
+                .ReturnsAsync(orderItemsPaginateMock.Object);
+
+            var expectedMessage = "You cannot create an order item with existing book if it is in the basket of the same user! Try to increase quantity.";
+
+            //Act and Assert
+            var exception = await Assert.ThrowsAsync<BusinessException>(async () =>
+                await _sut.Handle(request,CancellationToken.None));
+            Assert.Equal(expectedMessage, exception.Message);
+        }
 
 
 

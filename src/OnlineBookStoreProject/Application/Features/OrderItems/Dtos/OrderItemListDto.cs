@@ -9,7 +9,7 @@ namespace Application.Features.OrderItems.Dtos
     public class OrderItemListDto
     {
         public int Id { get; set; }
-        public int OrderId { get; set; } = 0;
+        public int? OrderId { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
         public bool IsInTheBasket { get; set; }

@@ -13,9 +13,9 @@ namespace Application.Features.Orders.Rules
     public class OrderBusinessRules
     {
 
-        IOrderRepository _orderRepository;
-        IOrderItemRepository _orderItemRepository;
-        IUserRepository _userRepository;
+        private readonly IOrderRepository _orderRepository;
+        private readonly IOrderItemRepository _orderItemRepository;
+        private readonly IUserRepository _userRepository;
         public OrderBusinessRules(IOrderRepository orderRepository, IOrderItemRepository orderItemRepository, IUserRepository userRepository)
         {
             _orderRepository = orderRepository;
@@ -26,11 +26,10 @@ namespace Application.Features.Orders.Rules
 
         public async Task UserNullCheck(int userId)
         {
-            IPaginate<User> uPaginate = await _userRepository.GetListAsync(x => x.Id== userId);
+            User? user = await _userRepository.GetAsync(x => x.Id == userId);
+            bool userCheck = user!=null ;
 
-            bool check = uPaginate.Items.Any();
-
-            if (!check)
+            if (!userCheck)
             {
                 throw new BusinessException("User is not exist!");
             }
@@ -43,9 +42,9 @@ namespace Application.Features.Orders.Rules
 
             IPaginate<OrderItem> oPaginate =await _orderItemRepository.GetListAsync(x => x.UserId == userId && x.IsInTheBasket == true);
 
-            bool check = oPaginate.Items.Any();
+            bool checkEmpty = oPaginate.Items.Any();
 
-            if (!check)
+            if (!checkEmpty)
             {
                 throw new BusinessException("Basket of the user is empty!");
             }

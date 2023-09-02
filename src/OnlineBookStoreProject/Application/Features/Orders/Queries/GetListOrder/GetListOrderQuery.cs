@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Features.Orders.Models;
+using Application.Features.Orders.Queries.GetListOrderByUserId;
 using Application.Services.Repositories;
 using AutoMapper;
 using Core.Application.Requests;
@@ -41,7 +42,10 @@ namespace Application.Features.Orders.Queries.GetListOrder
                 return orderListModel;
             }
 
-
+            public static implicit operator GetListOrderQueryHandler(GetListOrderByUserIdQuery.GetListOrderByUserIdQueryHandler v)
+            {
+                throw new NotImplementedException();
+            }
         }
 
 

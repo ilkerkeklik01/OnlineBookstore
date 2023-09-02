@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Features.Reviews.Dtos;
+using Application.Features.Reviews.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using Domain.Entities;
@@ -26,21 +27,26 @@ namespace Application.Features.Reviews.Commands.CreateReview
             private readonly IMapper _mapper;
             private readonly IUserRepository _userRepository;
             private readonly IBookRepository _bookRepository;
-            public CreateReviewCommandHandler(IReviewRepository reviewRepository,IMapper mapper, IUserRepository userRepository, IBookRepository bookRepository)
+            private readonly ReviewBusinessRules _reviewBusinessRules;
+            public CreateReviewCommandHandler(IReviewRepository reviewRepository,IMapper mapper, IUserRepository userRepository, IBookRepository bookRepository, ReviewBusinessRules reviewBusinessRules)
             {
                 _reviewRepository = reviewRepository;
                 _mapper = mapper;
                 _userRepository = userRepository;
                 _bookRepository = bookRepository;
+                _reviewBusinessRules = reviewBusinessRules;
             }
 
             public async Task<CreatedReviewDto> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
             {
+                User? user = await _reviewBusinessRules.UserNullCheck(request.UserId);
+                Book? book = await _reviewBusinessRules.BookNullCheckById(request.BookId);
+
                 Review mappedReview = _mapper.Map<Review>(request);
                 mappedReview.CreatedAt =DateTime.Now;
 
-                mappedReview.User = await _userRepository.GetAsync(u=>u.Id==mappedReview.UserId);
-                mappedReview.Book = await _bookRepository.GetAsync(b=>b.Id==mappedReview.BookId);
+                mappedReview.User = user;
+                mappedReview.Book = book;
 
 
                 Review createdReview = await _reviewRepository.AddAsync(mappedReview);

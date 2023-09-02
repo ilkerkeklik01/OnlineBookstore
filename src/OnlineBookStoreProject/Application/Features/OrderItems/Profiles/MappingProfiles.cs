@@ -48,6 +48,7 @@ namespace Application.Features.OrderItems.Profiles
 
 
             CreateMap<IPaginate<OrderItem>, OrderItemListModel>();
+                
             CreateMap<OrderItem, OrderItemListDto>().ForMember(x => x.UserName,
                 opt => opt.MapFrom(x => x.User.Username));
             //CreateMap<OrderItem, OrderItemListDto>().ForMember(c => c.BookTitle,

@@ -40,8 +40,6 @@ namespace Application.Features.OrderItems.Commands.DecreaseQuantityByOneOrderIte
             //Quantitysi 0 olursa olmaz 1 olursa da 0 yapıp is in the basket i false yapmalıyım.
             public async Task<OrderItemDto> Handle(DecreaseQuantityByOneOrderItemCommand request, CancellationToken cancellationToken)
             {
-                var asd = _orderItemRepository.GetAsync(x => x.Id == request.Id);
-
                 OrderItem orderItem = await _businessRules.QuantityOfOrderItemCannotBeLessThanZeroAndNullCheckFirst(request.Id);//
                 await _businessRules.CannotDecreaseTheQuantityOfOrderItemNotInTheBasket(orderItem.IsInTheBasket);
 

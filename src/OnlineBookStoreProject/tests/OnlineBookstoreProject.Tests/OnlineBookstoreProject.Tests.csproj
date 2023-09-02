@@ -34,9 +34,6 @@
     <Folder Include="Controllers.Tests\Order\" />
     <Folder Include="Controllers.Tests\Review\" />
     <Folder Include="Controllers.Tests\User\" />
-    <Folder Include="Handlers.Tests\Order\" />
-    <Folder Include="Handlers.Tests\Review\" />
-    <Folder Include="Handlers.Tests\User\" />
   </ItemGroup>
 
   <ItemGroup>

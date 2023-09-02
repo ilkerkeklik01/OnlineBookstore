@@ -11,6 +11,7 @@ using Application.Features.OrderItems.Rules;
 using Application.Services.Repositories;
 using AutoFixture;
 using AutoMapper;
+using Core.CrossCuttingConcerns.Exceptions;
 using Moq;
 
 namespace OnlineBookstoreProject.Tests.Handlers.Tests.OrderItem
@@ -136,6 +137,82 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.OrderItem
             Assert.IsType<OrderItemDto>(result);
             Assert.Equal(oldQuantity - 1, result.Quantity);
             Assert.False(result.IsInTheBasket);
+        }
+
+
+        [Fact]
+        public async Task Handle_InvalidRequestOrderItemIsNull_ThrowsBusinessException()
+        {
+            //Arrange
+            var request = _fixture.Build<DecreaseQuantityByOneOrderItemCommand>()
+                .With(x => x.Id, _fixture.Create<int>() + 1)
+                .Create();
+
+            Domain.Entities.OrderItem? orderItem = null;
+            _orderItemRepositoryMock.Setup(repo => repo.GetAsync(It.IsAny<Expression<Func<Domain.Entities.OrderItem, bool>>>()))
+                .ReturnsAsync(orderItem);
+
+            var expectedMessage = "Requested Order Item does not exist!";
+
+            //Act and Assert
+            var exception = await Assert.ThrowsAsync<BusinessException>(async () =>
+                await _sut.Handle(request, CancellationToken.None));
+            Assert.Equal(expectedMessage, exception.Message);
+        }
+
+        [Fact]
+        public async Task Handle_InvalidRequestQuantityIsZero_ThrowsBusinessException()
+        {
+            //Arrange
+            var request = _fixture.Build<DecreaseQuantityByOneOrderItemCommand>()
+                .With(x => x.Id, _fixture.Create<int>() + 1)
+                .Create();
+
+            var orderItem = _fixture.Build<Domain.Entities.OrderItem>()
+                .With(x => x.Id, request.Id)
+                .With(x => x.Quantity, 0)
+                .With(x => x.BookId, 5)
+                .With(x => x.UserId, 10)
+                .With(x => x.IsInTheBasket, _fixture.Create<bool>())
+                .Create();
+            _orderItemRepositoryMock.Setup(repo => repo.GetAsync(It.IsAny<Expression<Func<Domain.Entities.OrderItem, bool>>>()))
+                .ReturnsAsync(orderItem);
+
+            var expectedMessage = "Quantity of Order Item cannot be less than 0!";
+
+            //Act and Assert
+            var exception = await Assert.ThrowsAsync<BusinessException>(async () => 
+                await _sut.Handle(request,CancellationToken.None)
+                );
+            Assert.Equal(expectedMessage, exception.Message);
+        }
+
+        [Fact]
+        public async Task Handle_InvalidRequestNotInTheBasketOfUser_ThrowsBusinessException()
+        {
+            //Arrange
+            var request = _fixture.Build<DecreaseQuantityByOneOrderItemCommand>()
+                .With(x => x.Id, _fixture.Create<int>() + 1)
+                .Create();
+
+            var orderItem = _fixture.Build<Domain.Entities.OrderItem>()
+                .With(x => x.Id, request.Id)
+                .With(x => x.Quantity, 2)
+                .With(x => x.BookId, 5)
+                .With(x => x.UserId, 10)
+                .With(x => x.IsInTheBasket, false)
+                .Create();
+
+            _orderItemRepositoryMock.Setup(repo => repo.GetAsync(It.IsAny<Expression<Func<Domain.Entities.OrderItem, bool>>>()))
+                .ReturnsAsync(orderItem);
+
+            var expectedMessage = "Cannot decrease the quantity of order item that is not in the basket!";
+
+            //Act and Assert
+            var exception = await Assert.ThrowsAsync<BusinessException>(async () =>
+                await _sut.Handle(request, CancellationToken.None)
+            );
+            Assert.Equal(expectedMessage, exception.Message);
         }
 
 

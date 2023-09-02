@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Features.Reviews.Dtos
 {
-    public class CreatedReviewDto
+    public class CreatedReviewDto : IComparable<CreatedReviewDto>
     {
         public int Id { get; set; }
         public int BookId { get; set; }
@@ -17,6 +17,45 @@ namespace Application.Features.Reviews.Dtos
         public DateTime CreatedAt { get; set; }
         public string BookTitle { get; set; }
         public string UserName { get; set; }
+
+        public int CompareTo(CreatedReviewDto? other)
+        {
+            if (other == null)
+            {
+                return 1; 
+            }
+
+            if (!string.Equals(this.ReviewText, other.ReviewText))
+            {
+                return string.Compare(this.ReviewText, other.ReviewText);
+            }
+
+            if (!string.Equals(this.BookTitle, other.BookTitle))
+            {
+                return string.Compare(this.BookTitle, other.BookTitle);
+            }
+
+            if (!string.Equals(this.UserName, other.UserName))
+            {
+                return string.Compare(this.UserName, other.UserName);
+            }
+
+            
+            if (this.Rating.HasValue && other.Rating.HasValue)
+            {
+                return this.Rating.Value.CompareTo(other.Rating.Value);
+            }
+            else if (this.Rating.HasValue)
+            {
+                return 1; 
+            }
+            else if (other.Rating.HasValue)
+            {
+                return -1;
+            }
+
+            return 0;
+        }
 
     }
 }

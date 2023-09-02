@@ -71,9 +71,9 @@ namespace Application.Features.OrderItems.Rules
         public async Task CannotCreateOrderItemWithExistingBookIfItIsInTheBasketOfTheSameUser(int bookId,int userId)
         {
             IPaginate<OrderItem> orderItems = await _orderItemRepository.GetListAsync(x=>x.BookId==bookId && x.IsInTheBasket&& x.UserId==userId);
-            bool isAny=orderItems.Items.Any();
+            bool isAnyOrderItem=orderItems.Items.Any();
 
-            if (isAny)
+            if (isAnyOrderItem)
             {
                 throw new BusinessException("You cannot create an order item with existing book if it is in the basket of the same user! Try to increase quantity.");
             }

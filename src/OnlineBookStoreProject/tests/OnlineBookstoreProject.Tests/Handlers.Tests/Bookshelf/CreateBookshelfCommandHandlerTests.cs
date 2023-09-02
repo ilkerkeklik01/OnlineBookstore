@@ -51,12 +51,12 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.Bookshelf
                 .With(x => x.UserId,_fixture.Create<int>()+1)
                 .Create();
 
-            var user = _fixture.Build<User>()
+            var user = _fixture.Build<Domain.Entities.User>()
                 .With(x => x.Id, request.UserId)
                 .With(x => x.Username, _fixture.Create<string>())
                 .Create();
 
-            _userRepositoryMock.Setup(repo => repo.GetAsync(It.IsAny < Expression<Func<User, bool>>>()))
+            _userRepositoryMock.Setup(repo => repo.GetAsync(It.IsAny < Expression<Func<Domain.Entities.User, bool>>>()))
                 .ReturnsAsync(user);
 
             var mappedBookshelf = _mapper.Map<Domain.Entities.Bookshelf>(request);
@@ -93,9 +93,9 @@ namespace OnlineBookstoreProject.Tests.Handlers.Tests.Bookshelf
                 .With(x => x.UserId, _fixture.Create<int>() + 1)
                 .Create();
 
-            User? user = null;
+            Domain.Entities.User? user = null;
 
-            _userRepositoryMock.Setup(repo => repo.GetAsync(It.IsAny<Expression<Func<User, bool>>>()))
+            _userRepositoryMock.Setup(repo => repo.GetAsync(It.IsAny<Expression<Func<Domain.Entities.User, bool>>>()))
                 .ReturnsAsync(user);
             var expectedMessage = "User is not exist!";
             // Act & Assert

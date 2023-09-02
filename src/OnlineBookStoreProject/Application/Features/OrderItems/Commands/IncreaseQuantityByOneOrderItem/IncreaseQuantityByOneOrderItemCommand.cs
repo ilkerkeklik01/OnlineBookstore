@@ -38,9 +38,6 @@ namespace Application.Features.OrderItems.Commands.IncreaseQuantityByOneOrderIte
             //10 dan fazla ürün alamaması için de bir iş kuralı yazacagım
             public async Task<OrderItemDto> Handle(IncreaseQuantityByOneOrderItemCommand request, CancellationToken cancellationToken)
             {
-                var asd = await _orderItemRepository.GetAsync(x => x.Id == request.Id);
-
-
                 OrderItem orderItem = await _businessRules.QuantityOfOrderItemCannotBeMoreThanTenAndNullCheckFirst(request.Id);
                 await _businessRules.CannotIncreseTheQuantityOfOrderItemNotInTheBasket(orderItem.IsInTheBasket);
 

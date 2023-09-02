@@ -14,6 +14,7 @@ using FluentValidation;
 using MediatR;
 using Application.Features.Orders.Rules;
 using Application.Features.Bookshelves.Rules;
+using Application.Features.Reviews.Rules;
 
 namespace Application
 {
@@ -34,6 +35,7 @@ namespace Application
             services.AddScoped<OrderItemBusinessRules>();
             services.AddScoped<OrderBusinessRules>();
             services.AddScoped<BookshelfBusinessRules>();
+            services.AddScoped<ReviewBusinessRules>();
 
 
             return services;
