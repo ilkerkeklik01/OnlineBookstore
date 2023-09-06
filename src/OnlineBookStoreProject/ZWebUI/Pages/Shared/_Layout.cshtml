@@ -166,11 +166,11 @@
 
         }
         // Inside your script (outside of the generateBookCards function)
-        async function  addToCart(bookId, userId) {
+         async function  addToCart(bookId, userId) {
             // Implement your logic to add the book to the cart here
             // You can now use both bookId and userId to make API requests or perform other actions
 
-            await fetch('http://localhost:5093/api/OrderItems/add', {
+             await fetch('http://localhost:5093/api/OrderItems/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -182,7 +182,9 @@
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data.message); // Log the response from the server
+                    // buraya log attigimda yazdiriyor diger yerlerde nedense yazdirmadi
+                    
+                    console.log(data.Detail); // Log the response from the server
                 })
                 .catch(error => {
                         var str = response.json();
