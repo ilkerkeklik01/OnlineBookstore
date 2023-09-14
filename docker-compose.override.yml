@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  webapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__OnlineBookstoreConnectionString=Server=host.docker.internal,1433; Initial Catalog= OnlineBookstoreDb; persist security info=True; User ID =sa; Password=ilker123..Ilker;TrustServerCertificate=True
+    ports:
+      - "8080:80"
+
+      # burda connection stringi app settingsle ayni yapinca calismiyor.s
+      # Server=(localdb)\\MSSQLLocalDB;Database=OnlineBookstoreDb; Trusted_Connection=True;
+      # Server=172.21.240.1,1433; Initial Catalog= OnlineBookstoreDb; persist security info=True; User ID =sa; Password=ilker123..Ilker;TrustServerCertificate=True
+  zwebui:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "9090:80"
+

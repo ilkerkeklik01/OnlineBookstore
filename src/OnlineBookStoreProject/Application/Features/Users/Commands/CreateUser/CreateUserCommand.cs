@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Features.Users.Dtos;
+using Application.Features.Users.Rules;
 using Application.Services.Repositories;
 using AutoMapper;
 using MediatR;
@@ -24,15 +25,19 @@ namespace Application.Features.Users.Commands.CreateUser
         {
             private readonly IUserRepository _repository;
             private readonly IMapper _mapper;
-            public CreateUserCommandHandler(IUserRepository repository,IMapper mapper)
+            private readonly UserBusinessRules _userBusinessRules;
+            public CreateUserCommandHandler(IUserRepository repository,IMapper mapper, UserBusinessRules userBusinessRules)
             {
                 _repository = repository;
                 _mapper = mapper;
+                _userBusinessRules = userBusinessRules;
             }
 
 
             public async Task<CreatedUserDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
             {
+                await _userBusinessRules.EmailCannotBeDuplicated(request.Email);
+
                 User mappedUser = _mapper.Map<User>(request);
                 mappedUser.PasswordUpdatedAt=DateTime.Now;
                 mappedUser.RegistrationDate=DateTime.Now;

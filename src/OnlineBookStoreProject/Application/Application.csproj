@@ -23,7 +23,6 @@
     <Folder Include="Features\Orders\Constants\" />
     <Folder Include="Features\Reviews\Constants\" />
     <Folder Include="Features\Users\Constants\" />
-    <Folder Include="Features\Users\Rules\" />
   </ItemGroup>
 
   <ItemGroup>

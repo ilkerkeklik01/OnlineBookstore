@@ -1,0 +1,47 @@
+version: '3.4'
+
+networks:
+  onlinebookstoreappnetwork:
+    
+
+services:
+  webapi:
+    container_name: webapi
+    image: ${DOCKER_REGISTRY-}webapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - onlinebookstoreappnetwork
+    depends_on:
+      - bookstoredb
+    build:
+      context: .
+      dockerfile: src/OnlineBookStoreProject/WebAPI/Dockerfile
+  bookstoredb:
+    container_name: bookstoredb
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    volumes:
+      - bookstore_data:/var/opt/mssql
+    ports:
+      - "1433:1433"
+    environment:
+      MSSQL_SA_PASSWORD: "ilker123..Ilker"
+      ACCEPT_EULA: "Y"
+    networks:
+      - onlinebookstoreappnetwork
+  zwebui:
+    image: ${DOCKER_REGISTRY-}zwebui
+    networks:
+      - onlinebookstoreappnetwork
+    depends_on:
+      - webapi
+    build:
+      context: .
+      dockerfile: src/OnlineBookStoreProject/ZWebUI/Dockerfile  
+
+
+volumes:
+  bookstore_data:
+    name: bookstore_data
+
+      

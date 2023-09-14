@@ -30,7 +30,8 @@
                 const password = document.getElementById('password').value;
 
                 // Example API call (replace with your actual API endpoint)
-                  fetch('http://localhost:5093/api/Users/getlist?PageRequest.Page=0&PageRequest.PageSize=10')
+                    //'http://localhost:5093/api/Users/getlist?PageRequest.Page=0&PageRequest.PageSize=10'
+                    fetch('http://localhost:8080/api/Users/getlist?PageRequest.Page=0&PageRequest.PageSize=10')
                     .then(response => response.json())
                     .then(data => {
                         console.log(data);

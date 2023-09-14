@@ -15,6 +15,7 @@ using MediatR;
 using Application.Features.Orders.Rules;
 using Application.Features.Bookshelves.Rules;
 using Application.Features.Reviews.Rules;
+using Application.Features.Users.Rules;
 
 namespace Application
 {
@@ -36,6 +37,7 @@ namespace Application
             services.AddScoped<OrderBusinessRules>();
             services.AddScoped<BookshelfBusinessRules>();
             services.AddScoped<ReviewBusinessRules>();
+            services.AddScoped<UserBusinessRules>();
 
 
             return services;

@@ -70,7 +70,8 @@
 <script>
         async function fetchBooks() {
             const userId = sessionStorage.getItem('userId');
-            const response = await fetch(`http://localhost:5093/api/OrderItems/getlistbasket?userId=${userId}&PageRequest.Page=0&PageRequest.PageSize=10`);
+            //`http://localhost:5093/api/OrderItems/getlistbasket?userId=${userId}&PageRequest.Page=0&PageRequest.PageSize=10`
+            const response = await fetch(`http://localhost:8080/api/OrderItems/getlistbasket?userId=${userId}&PageRequest.Page=0&PageRequest.PageSize=10`);
             const data = await response.json();
 
             const productList = document.getElementById('product-list');
@@ -116,7 +117,8 @@
     </script>
     <script>
         async function increaseQuantity(itemId) {
-            const response = await fetch(`http://localhost:5093/api/OrderItems/increase=${itemId}`, {
+            //`http://localhost:5093/api/OrderItems/increase=${itemId}`
+            const response = await fetch(`http://localhost:8080/api/OrderItems/increase=${itemId}`, {
                 method: 'POST', // veya 'PUT' isteðinize uygun method seçeneðini kullanabilirsiniz
             });
 
@@ -131,7 +133,8 @@
         }
 
         async function decreaseQuantity(itemId) {
-            const response = await fetch(`http://localhost:5093/api/OrderItems/decrease=${itemId}`, {
+            //`http://localhost:5093/api/OrderItems/decrease=${itemId}`
+            const response = await fetch(`http://localhost:8080/api/OrderItems/decrease=${itemId}`, {
                 method: 'POST', // veya 'PUT' isteðinize uygun method seçeneðini kullanabilirsiniz
             });
 
@@ -144,7 +147,8 @@
         }
         async function makePayment() {
             const userId = sessionStorage.getItem('userId');
-            const response = await fetch('http://localhost:5093/api/Orders/add', {
+            //'http://localhost:5093/api/Orders/add'
+            const response = await fetch('http://localhost:8080/api/Orders/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

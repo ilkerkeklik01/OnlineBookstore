@@ -87,7 +87,8 @@
     <script>
         // Fetch book data from your API
         function fetchBooks() {
-            fetch('http://localhost:5093/api/Books/getlist?PageRequest.Page=0&PageRequest.PageSize=10')
+            // 'http://localhost:5093/api/Books/getlist?PageRequest.Page=0&PageRequest.PageSize=10'
+            fetch('http://localhost:8080/api/Books/getlist?PageRequest.Page=0&PageRequest.PageSize=10')
                 .then(response => response.json())
                 .then(data => generateBookCards(data.items))
                 .catch(error => console.error('Error fetching data:', error));
@@ -141,7 +142,7 @@
                 // Handle "Add to Cart" button click
                 const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
                 addToCartButtons.forEach(button => {
-                    button.addEventListener('click', handleAddToCart);
+                     button.addEventListener('click', handleAddToCart);
                 });
 
                 // Handle "View Details" button click event
@@ -154,11 +155,17 @@
                 }
 
                 // Handle "Add to Cart" button click event
-                function handleAddToCart(event) {
+               async function handleAddToCart(event) {
+                    
+
                     const bookId = event.target.getAttribute('data-book-id');
-                    // Now you have the book ID to handle the cart logic
-                    alert(`Added book with ID: ${bookId} to the cart`);
-                    addToCart(bookId,userId); // Pass the book ID to your addToCart function
+                   
+
+                    
+                        await addToCart(bookId, userId); 
+                        
+                    
+                   
                 }
                 
                
@@ -166,32 +173,58 @@
 
         }
         // Inside your script (outside of the generateBookCards function)
+        let isAddedToCart = false;
          async function  addToCart(bookId, userId) {
-            // Implement your logic to add the book to the cart here
-            // You can now use both bookId and userId to make API requests or perform other actions
+            if (isAddedToCart) {
+                return; // Eğer işlem hala devam ediyorsa, yeni bir işlemi engelle
+            }
+            isAddedToCart = true;
 
-             await fetch('http://localhost:5093/api/OrderItems/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    userId: userId,
-                    bookId: bookId
+             try {
+                // Implement your logic to add the book to the cart here
+                // You can now use both bookId and userId to make API requests or perform other actions
+                //'http://localhost:5093/api/OrderItems/add'
+                 let check = false;
+                await fetch('http://localhost:8080/api/OrderItems/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: userId,
+                        bookId: bookId
+                    })
                 })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // buraya log attigimda yazdiriyor diger yerlerde nedense yazdirmadi
-                    
-                    console.log(data.Detail); // Log the response from the server
-                })
-                .catch(error => {
+                    .then(response => response.json())
+                    .then(data => {
+                        // buraya log attigimda yazdiriyor diger yerlerde nedense yazdirmadi
+                        console.log(data);
+                        if (data?.Status == 400) {
+                            check = false
+                        } else {
+                            check = true;
+                        }
+
+                        
+                    })
+                    .catch(error => {
                         var str = response.json();
-                    console.log(str);
-                });
+                        console.log(str);
+                        check = false;
+                    });
 
-            alert(`Added book with ID: ${bookId} to the cart for user with ID: ${userId}`);
+                 if (check) {
+
+                    await alert(`Added book with ID: ${bookId} to the cart for user with ID: ${userId}`);
+                }
+
+                isAddedToCart = false;
+            } catch (error) {
+                // Hata durumunda değişkeni false yap
+                isAddedToCart = false;
+                console.error(error);
+            }
+            
         }
         // Inside your script (outside of the generateBookCards function)
         async function viewDetailsClicked(bookId) {

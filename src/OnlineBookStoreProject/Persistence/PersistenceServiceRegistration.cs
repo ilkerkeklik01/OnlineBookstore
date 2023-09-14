@@ -21,6 +21,7 @@ namespace Persistence
         //class and method must be static while using extension
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
+            
             var cnnString = configuration.GetConnectionString("OnlineBookstoreConnectionString");
             //get and connect sql server from appsettings config file
             services.AddDbContext<BaseDbContext>(options =>
