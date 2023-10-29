@@ -18,15 +18,16 @@ namespace Persistence
 {
     public static class PersistenceServiceRegistration
     {
+        
         //class and method must be static while using extension
         public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
         {
             
             var cnnString = configuration.GetConnectionString("OnlineBookstoreConnectionString");
             //get and connect sql server from appsettings config file
-            services.AddDbContext<BaseDbContext>(options =>
+            services.AddDbContext<BaseDbContext>(options => 
                 options.UseSqlServer(cnnString));
-
+            
             //dependency injections
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -36,7 +37,13 @@ namespace Persistence
             services.AddScoped<IBookshelfRepository, BookshelfRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
-
+            using (var serviceProvider = services.BuildServiceProvider())
+            {
+                using (var dbContext = serviceProvider.GetRequiredService<BaseDbContext>())
+                {
+                    dbContext.Database.EnsureCreatedAsync().Wait();
+                }
+            }
 
             //Reflections
             //var repositoryInterfaces = AppDomain.CurrentDomain.GetAssemblies()

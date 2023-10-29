@@ -28,14 +28,12 @@ namespace Persistence.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //if (!optionsBuilder.IsConfigured)
-            //    base.OnConfiguring(
-            //        optionsBuilder.UseSqlServer(Configuration.GetConnectionString("SomeConnectionString")));
+            
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
 
             //Book Entity
             modelBuilder.Entity<Book>(book =>
